@@ -2,15 +2,12 @@ package pjpo.github.com.consplan;
 
 import javax.servlet.annotation.WebServlet;
 
-import pjpo.github.com.consplan.samples.CountView;
-import pjpo.github.com.consplan.samples.MainView;
 import pjpo.github.com.consplan.samples.TestMainLayout;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Viewport;
 import com.vaadin.annotations.Widgetset;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -31,9 +28,6 @@ public class ConsPlan extends UI {
     	Responsive.makeResponsive(this);
     	// Sets parameters of Locale
         setLocale(vaadinRequest.getLocale());
-
-        // Create Navigator, use the UI content layout to display the views
-        Navigator navigator = new Navigator(this, this);
 
         // Set content
         setContent(new TestMainLayout(this));
