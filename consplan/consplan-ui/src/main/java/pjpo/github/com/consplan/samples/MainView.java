@@ -9,7 +9,7 @@ import com.vaadin.ui.Panel;
 @SuppressWarnings("serial")
 public class MainView extends Panel implements View {
 
-    public static final String NAME = "";
+    public static final String NAME = "main";
 
     public MainView() {
 

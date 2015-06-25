@@ -2,7 +2,7 @@ package pjpo.github.com.consplan;
 
 import javax.servlet.annotation.WebServlet;
 
-import pjpo.github.com.consplan.samples.TestMainLayout;
+import pjpo.github.com.consplan.samples.MainScreen;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -30,7 +30,7 @@ public class ConsPlan extends UI {
         setLocale(vaadinRequest.getLocale());
 
         // Set content
-        setContent(new TestMainLayout(this));
+        setContent(new MainScreen(this));
     }
 
     @WebServlet(urlPatterns = "/*", name = "ConsPlanServlet", asyncSupported = true)
