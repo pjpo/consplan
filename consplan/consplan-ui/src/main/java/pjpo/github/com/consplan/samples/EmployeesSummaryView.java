@@ -7,11 +7,14 @@ import com.vaadin.ui.Link;
 import com.vaadin.ui.Panel;
 
 @SuppressWarnings("serial")
-public class MainView extends Panel implements View {
+public class EmployeesSummaryView extends Panel implements View {
 
-    public static final String NAME = "main";
+	/**
+	 * String definition for this view
+	 */
+    public static final String NAME = EmployeesSummaryView.class.getName();
 
-    public MainView() {
+    public EmployeesSummaryView() {
 
         Link lnk = new Link("Count", new ExternalResource("#!"
                 + CountView.NAME));

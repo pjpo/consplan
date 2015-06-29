@@ -102,6 +102,7 @@
 
 	</repositories>
   <modules>
+    <module>consplan-library</module>
     <module>consplan-widgetset</module>
     <module>consplan-ui</module>
     <module>consplan-production</module>
