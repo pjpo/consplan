@@ -11,7 +11,7 @@ import org.chocosolver.solver.search.strategy.selectors.IntValueSelector;
 import org.chocosolver.solver.variables.IntVar;
 
 import com.github.pjpo.consplan.library.model.Position;
-import com.github.pjpo.consplan.library.model.Worker;
+import com.github.pjpo.consplan.library.model.Employee;
 import com.github.pjpo.consplan.library.utils.IntervalDateTime;
 
 /**
@@ -28,7 +28,7 @@ public class CPlanRandomStrategy implements IntValueSelector {
 	private final Random rand = new Random(new Date().getTime());
 	
 	/** Physicians */
-	private final HashMap<Integer, Worker> physicians;
+	private final HashMap<Integer, Employee> physicians;
 
 	/** Private Hashtable for storing positions depending on intvar (index) */
 	private final HashMap<IntVar, Position> intVarPositions;
@@ -50,7 +50,7 @@ public class CPlanRandomStrategy implements IntValueSelector {
 	 * @param physicians
 	 */
 	public CPlanRandomStrategy(
-			final HashMap<Integer, Worker> physicians,
+			final HashMap<Integer, Employee> physicians,
 			final HashMap<IntVar, Position> intVarPositions) {
 		this.physicians = physicians;
 		this.intVarPositions = intVarPositions;
@@ -89,7 +89,7 @@ public class CPlanRandomStrategy implements IntValueSelector {
 				final Position position = intVarPositions.get(var);
 				
 				// Does somebody has to work this day ?
-				for (final Entry<Integer, Worker> physician : physicians.entrySet()) {
+				for (final Entry<Integer, Employee> physician : physicians.entrySet()) {
 					if (physician.getValue().getWorkedPositions().containsEntry(position.getBounds().getStart().toLocalDate(), position.getName())) {
 						return physician.getKey();
 					}
@@ -103,7 +103,7 @@ public class CPlanRandomStrategy implements IntValueSelector {
 				// If this element has not been computed, list employees
 				if (!employeesPerPosition.containsKey(var)) {
 				
-					eachPhysician : for (final Entry<Integer, Worker> physician : physicians.entrySet()) {
+					eachPhysician : for (final Entry<Integer, Employee> physician : physicians.entrySet()) {
 						
 						// CHECK IF THIS PHYSICIAN HAS THE RIGHT TO WORK AT THIS POSITION
 						if (physician.getValue().getRefusedPositions().contains(position.getName()))

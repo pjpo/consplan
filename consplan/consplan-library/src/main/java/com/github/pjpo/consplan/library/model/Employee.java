@@ -13,7 +13,7 @@ import com.google.common.collect.Multimap;
  * @author jp@dm.lan
  *
  */
-public class Worker implements Cloneable {
+public class Employee implements Cloneable {
 
 	/** Worker's name */
 	private String name = null;
@@ -97,8 +97,8 @@ public class Worker implements Cloneable {
 		return name + " : (timepart = " + timePart + "; internalindice = " + internalIndice + ")"; 
 	}
 	
-	public Worker clone() {
-		final Worker clonedWorker = new Worker();
+	public Employee clone() {
+		final Employee clonedWorker = new Employee();
 		clonedWorker.setInternalIndice(internalIndice);
 		clonedWorker.setName(name);
 		clonedWorker.setPaidVacations(new ArrayList<>(paidVacations));

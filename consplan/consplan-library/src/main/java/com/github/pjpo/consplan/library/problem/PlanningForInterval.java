@@ -9,7 +9,7 @@ import javax.script.ScriptException;
 import com.github.pjpo.consplan.library.model.Position;
 import com.github.pjpo.consplan.library.model.PositionConstraintBase;
 import com.github.pjpo.consplan.library.model.PositionDefinition;
-import com.github.pjpo.consplan.library.model.Worker;
+import com.github.pjpo.consplan.library.model.Employee;
 import com.github.pjpo.consplan.library.utils.IntervalDate;
 import com.google.common.collect.HashBasedTable;
 
@@ -23,7 +23,7 @@ public class PlanningForInterval {
 	// ==== Informative fields (external) ====
 	
 	/** List of used physicians */
-	private final HashMap<Integer, Worker> physicians;
+	private final HashMap<Integer, Employee> physicians;
 	
 	/** List of intra and interday constraints */
 	private final List<PositionConstraintBase> positionsConstraints;
@@ -51,7 +51,7 @@ public class PlanningForInterval {
 	 */
 	public PlanningForInterval(
 			final IntervalDate intervalDate,
-			final HashMap<Integer, Worker> physicians,
+			final HashMap<Integer, Employee> physicians,
 			final List<PositionDefinition> positionsDefinitions,
 			final List<PositionConstraintBase> positionsConstraints) {
 		

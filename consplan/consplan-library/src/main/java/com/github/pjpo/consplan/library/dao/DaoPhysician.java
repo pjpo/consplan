@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 
-import com.github.pjpo.consplan.library.model.Worker;
+import com.github.pjpo.consplan.library.model.Employee;
 import com.github.pjpo.consplan.library.utils.IntervalDateTime;
 import com.google.common.collect.HashMultimap;
 
@@ -47,7 +47,7 @@ public class DaoPhysician {
 	 * @param physician
 	 * @throws IOException
 	 */
-	public void store(final Worker physician) throws IOException {
+	public void store(final Employee physician) throws IOException {
 
 		if (writer == null)
 			throw new IOException("This dao has no writer defined");
@@ -83,14 +83,14 @@ public class DaoPhysician {
 	 * @return
 	 * @throws IOException
 	 */
-	public Worker load() throws IOException {
+	public Employee load() throws IOException {
 
 		if (reader == null)
 			throw new IOException("This dao has no reader defined");
 
 		String readedLine = null;
 		
-		final Worker physician = new Worker();
+		final Employee physician = new Employee();
 		physician.setPaidVacations(new LinkedList<>());
 		physician.setRefusedPositions(new LinkedList<>());
 		physician.setUnpaidVacations(new LinkedList<>());

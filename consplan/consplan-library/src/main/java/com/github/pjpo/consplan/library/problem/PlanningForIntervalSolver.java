@@ -21,7 +21,7 @@ import com.github.pjpo.consplan.library.model.PositionConstraintBase;
 import com.github.pjpo.consplan.library.model.PositionConstraintRuleElement;
 import com.github.pjpo.consplan.library.model.PositionDifferentConstraint;
 import com.github.pjpo.consplan.library.model.PositionEqualConstraint;
-import com.github.pjpo.consplan.library.model.Worker;
+import com.github.pjpo.consplan.library.model.Employee;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table.Cell;
 
@@ -40,7 +40,7 @@ public class PlanningForIntervalSolver {
 	private final Random random = new Random(new Date().getTime()); 
 	
 	/** Defined emplyees with their internal indices in solver */
-	private final HashMap<Integer, Worker> physicians;
+	private final HashMap<Integer, Employee> physicians;
 	
 	/**
 	 * Creates a new solver for the positions defined in {@code positions}
@@ -51,7 +51,7 @@ public class PlanningForIntervalSolver {
 	 * @param previousSolution
 	 */
 	public PlanningForIntervalSolver(
-			final HashMap<Integer, Worker> physicians,
+			final HashMap<Integer, Employee> physicians,
 			final HashBasedTable<LocalDate, String, Position> positions,
 			final List<PositionConstraintBase> positionsConstraints,
 			final Solution previousSolution) {

@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.github.pjpo.consplan.library.model.Position;
-import com.github.pjpo.consplan.library.model.Worker;
+import com.github.pjpo.consplan.library.model.Employee;
 import com.github.pjpo.consplan.library.utils.IntervalDateTime;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table.Cell;
@@ -38,7 +38,7 @@ public class Solution {
 	private final Long undefinedPositionsNb;
 	
 	/**Undefined worker */
-	private final Worker undefinedWorker = new Worker() {{
+	private final Employee undefinedWorker = new Employee() {{
 		setInternalIndice(-1);
 		setName("Undefined");
 	}};
@@ -50,7 +50,7 @@ public class Solution {
 	 * @param positions positions from solver (with choco internal value)
 	 */
 	public Solution(
-			final HashMap<Integer, Worker> physicians,
+			final HashMap<Integer, Employee> physicians,
 			final HashBasedTable<LocalDate, String, Position> positions) {
 
 		this.positions = positions;
@@ -68,7 +68,7 @@ public class Solution {
 		}
 		
 		// INITS THE WORK LOAD
-		for (final Entry<Integer, Worker> physician : physicians.entrySet()) {
+		for (final Entry<Integer, Employee> physician : physicians.entrySet()) {
 			workLoads.put(physician.getKey(), 0L);
 		}
 
@@ -95,7 +95,7 @@ public class Solution {
 			final HashSet<LocalDate> clonedWorkedDays = (HashSet<LocalDate>) workedDays.clone();
 	
 			// 2 - FINDS THE PHYSICIAN
-			final Worker physician = physicians.get(workLoad.getKey());
+			final Employee physician = physicians.get(workLoad.getKey());
 			
 			// 3 - REMOVES THE NOT WORKED DAYS (PAID VACATIONS)
 			final Iterator<LocalDate> localDateIt = clonedWorkedDays.iterator();
@@ -145,7 +145,7 @@ public class Solution {
 	 * @param physician
 	 * @return
 	 */
-	public Long getWorkLoad(final Worker physician) {
+	public Long getWorkLoad(final Employee physician) {
 		return workLoads.get(physician.getInternalIndice());
 	}
 

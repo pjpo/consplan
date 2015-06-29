@@ -32,7 +32,7 @@ public class Position implements Cloneable {
 	private IntVar internalChocoRepresentation;
 	
 	/** Worker at this position */
-	private Worker worker;
+	private Employee worker;
 	
 	/**
 	 * Returns bounds of this position
@@ -118,7 +118,7 @@ public class Position implements Cloneable {
 	 * Gets the Employee defined for this position
 	 * @return
 	 */
-	public Worker getWorker() {
+	public Employee getWorker() {
 		return worker;
 	}
 
@@ -126,7 +126,7 @@ public class Position implements Cloneable {
 	 * Sets the employee for this position at this day
 	 * @param worker
 	 */
-	public void setWorker(final Worker worker) {
+	public void setWorker(final Employee worker) {
 		this.worker = worker;
 	}
 	
