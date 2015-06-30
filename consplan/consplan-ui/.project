@@ -3,6 +3,7 @@
 	<name>consplan-ui</name>
 	<comment></comment>
 	<projects>
+		<project>consplan-library</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

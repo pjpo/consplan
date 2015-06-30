@@ -20,6 +20,7 @@ public class EmployeesGrid extends Grid {
         final BeanItemContainer<Employee> container = new BeanItemContainer<Employee>(
                 Employee.class);
         setContainerDataSource(container);
+        setColumns("name", "timePart");
         setColumnOrder("name", "timePart");
 
         // Align columns using a style generator
