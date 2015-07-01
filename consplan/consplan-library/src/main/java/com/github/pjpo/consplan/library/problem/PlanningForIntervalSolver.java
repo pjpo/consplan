@@ -60,7 +60,7 @@ public class PlanningForIntervalSolver {
 		// Creates choco solver
 		this.solver = new Solver();
 		
-		// If a previous accepted solution exists, use it in order to clone the previous solution, else use the table
+		// If a previous accepted solution exists, use it as a template to create the new solution
 		// of positions as a reference
 		// Clones the positions in order to modify them depending on the solver
 		for (final Cell<LocalDate, String, SolverPosition> position : previousSolution != null ? previousSolution.getPositions().cellSet() : positions.cellSet()) {

@@ -11,7 +11,7 @@ import com.google.common.collect.Multimap;
  * @author jp@dm.lan
  *
  */
-public interface Employee extends Cloneable {
+public interface Employee {
 
 	public String getName();
 
