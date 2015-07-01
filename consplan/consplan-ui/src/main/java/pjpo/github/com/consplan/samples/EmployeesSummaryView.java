@@ -33,6 +33,8 @@ public class EmployeesSummaryView  extends CssLayout implements View {
     
     private final EmployeesSummaryLogic logic;
     
+    private final EmployeeForm form;
+    
     public EmployeesSummaryView() {
     	
     	setSizeFull();
@@ -58,6 +60,9 @@ public class EmployeesSummaryView  extends CssLayout implements View {
 
     	// Sets the full content as content
     	addComponent(barAndGridLayout);
+    	
+    	// Creates the employee form
+    	form = new EmployeeForm(logic, logic.getEmployeesDao());
     }
 
     public HorizontalLayout createTopBar() {
@@ -76,7 +81,7 @@ public class EmployeesSummaryView  extends CssLayout implements View {
     
     @Override
     public void enter(ViewChangeEvent event) {
-    	logic.enter(event);
+    	logic.enter(event.getParameters());
     }
 
     public void clearSelection() {
@@ -91,7 +96,7 @@ public class EmployeesSummaryView  extends CssLayout implements View {
         return grid.getSelectedRow();
     }
     
-    public void editProduct(final Employee employee) {
+    public void editEmployee(final Employee employee) {
         if (employee != null) {
             form.addStyleName("visible");
             form.setEnabled(true);
@@ -111,7 +116,7 @@ public class EmployeesSummaryView  extends CssLayout implements View {
         grid.scrollTo(employee);
     }
 
-    public void removeProduct(final Employee employee) {
+    public void removeEmployee(final Employee employee) {
         grid.remove(employee);
     }
     

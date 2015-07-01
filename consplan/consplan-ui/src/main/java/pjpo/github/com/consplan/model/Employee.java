@@ -14,7 +14,7 @@ import com.google.common.collect.Multimap;
 public class Employee implements com.github.pjpo.consplan.library.model.Employee {
 	
 	/** Workers Internal Id */
-	private Long employeeId = null;
+	private Long employeeId = -1L;
 	
 	/** Worker's name */
 	private String name = null;

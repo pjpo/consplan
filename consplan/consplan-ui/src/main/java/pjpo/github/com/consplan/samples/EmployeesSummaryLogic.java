@@ -4,14 +4,11 @@ import pjpo.github.com.consplan.ConsPlan;
 import pjpo.github.com.consplan.dao.EmployeesDao;
 import pjpo.github.com.consplan.model.Employee;
 
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 
 public class EmployeesSummaryLogic {
 
     private EmployeesSummaryView view;
-
-    private Employee selectedEmployee;
     
     private EmployeesDao employeesDao; 
     
@@ -28,7 +25,7 @@ public class EmployeesSummaryLogic {
         view.showEmployees(employeesDao.getEmployees());
     }
 
-    public void cancelProduct() {
+    public void cancelEmployee() {
         setFragmentParameter("");
         view.clearSelection();
         view.editEmployee(null);
@@ -50,9 +47,21 @@ public class EmployeesSummaryLogic {
                 + fragmentParameter, false);
     }
 
-    public void enter(ViewChangeEvent event) {
-    	// Do nothing
-    }
+    public void enter(final String employeeId) {
+        if (employeeId != null && !employeeId.isEmpty()) {
+            if (employeeId.equals("new")) {
+                newEmployee();
+            } else {
+            	// Ensure this is selected even if coming directly here from
+            	// login
+            	try {
+            		long eid = Long.parseLong(employeeId);
+            		Employee employee = findEmployee(eid);
+                    view.selectRow(employee);
+                } catch (NumberFormatException e) {
+                }
+            }
+        }    }
 
     private Employee findEmployee(final Long employeeId) {
         return employeesDao.getById(employeeId);
@@ -69,8 +78,8 @@ public class EmployeesSummaryLogic {
     	employeesDao.deleteEmployee(employee.getEmployeeId());
 
         view.clearSelection();
-        view.editProduct(null);
-        view.removeEmployee(product);
+        view.editEmployee(null);
+        view.removeEmployee(employee);
         setFragmentParameter("");
     }
 
@@ -86,12 +95,15 @@ public class EmployeesSummaryLogic {
     public void newEmployee() {
         view.clearSelection();
         setFragmentParameter("new");
-        view.editProduct(new Employee());
+        view.editEmployee(new Employee());
     }
 
     public void rowSelected(final Employee employee) {
-            view.editEmployee(employee);
-        }
+    	view.editEmployee(employee);
     }
-
+    
+    public EmployeesDao getEmployeesDao() {
+    	return employeesDao;
+    }
 }
+

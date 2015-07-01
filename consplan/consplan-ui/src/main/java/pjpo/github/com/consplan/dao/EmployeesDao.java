@@ -34,4 +34,8 @@ public class EmployeesDao {
 	public void deleteEmployee(final Long employeeId) {
 		employees.remove(employeeId);
 	}
+	
+	public void updateEmployee(final Employee employee) {
+		employees.put(employee.getEmployeeId(), employee);
+	}
 }
