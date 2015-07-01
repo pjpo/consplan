@@ -2,8 +2,8 @@ package pjpo.github.com.consplan.samples;
 
 import pjpo.github.com.consplan.ConsPlan;
 import pjpo.github.com.consplan.dao.EmployeesDao;
+import pjpo.github.com.consplan.model.Employee;
 
-import com.github.pjpo.consplan.library.model.Employee;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 
@@ -13,31 +13,36 @@ public class EmployeesSummaryLogic {
 
     private Employee selectedEmployee;
     
-    public EmployeesSummaryLogic(EmployeesSummaryView view) {
+    private EmployeesDao employeesDao; 
+    
+    public EmployeesSummaryLogic(
+    		final EmployeesSummaryView view,
+    		final EmployeesDao employeesDao) {
         this.view = view;
+        this.employeesDao = employeesDao;
     }
 
     public void init() {
-        setEmployeeEdited(null);
+        editEmployee(null);
 
-        view.showEmployees(new EmployeesDao().getEmployees());
+        view.showEmployees(employeesDao.getEmployees());
     }
 
     public void cancelProduct() {
         setFragmentParameter("");
         view.clearSelection();
-        view.editProduct(null);
+        view.editEmployee(null);
     }
 
     /**
      * Update the fragment without causing navigator to change view
      */
-    private void setFragmentParameter(String productId) {
+    private void setFragmentParameter(final String employeeId) {
         String fragmentParameter;
-        if (productId == null || productId.isEmpty()) {
+        if (employeeId == null || employeeId.isEmpty()) {
             fragmentParameter = "";
         } else {
-            fragmentParameter = productId;
+            fragmentParameter = employeeId;
         }
 
         Page page = ConsPlan.get().getPage();
@@ -49,48 +54,43 @@ public class EmployeesSummaryLogic {
     	// Do nothing
     }
 
-    private Product findProduct(int productId) {
-        return DataService.get().getProductById(productId);
+    private Employee findEmployee(final Long employeeId) {
+        return employeesDao.getById(employeeId);
     }
 
-    public void saveProduct(Product product) {
-        view.showSaveNotification(product.getProductName() + " ("
-                + product.getId() + ") updated");
+    public void saveEmployee(final Employee employee) {
         view.clearSelection();
-        view.editProduct(null);
-        view.refreshProduct(product);
+        view.editEmployee(null);
+        view.refreshEmployee(employee);
         setFragmentParameter("");
     }
 
-    public void deleteProduct(Product product) {
-        DataService.get().deleteProduct(product.getId());
-        view.showSaveNotification(product.getProductName() + " ("
-                + product.getId() + ") removed");
+    public void deleteEmployee(final Employee employee) {
+    	employeesDao.deleteEmployee(employee.getEmployeeId());
 
         view.clearSelection();
         view.editProduct(null);
-        view.removeProduct(product);
+        view.removeEmployee(product);
         setFragmentParameter("");
     }
 
-    public void editProduct(Product product) {
-        if (product == null) {
+    public void editEmployee(final Employee employee) {
+        if (employee == null) {
             setFragmentParameter("");
         } else {
-            setFragmentParameter(product.getId() + "");
+            setFragmentParameter(employee.getEmployeeId() + "");
         }
-        view.editProduct(product);
+        view.editEmployee(employee);
     }
 
-    public void newProduct() {
+    public void newEmployee() {
         view.clearSelection();
         setFragmentParameter("new");
-        view.editProduct(new Product());
+        view.editProduct(new Employee());
     }
 
-    public void rowSelected(Product product) {
-        if (MyUI.get().getAccessControl().isUserInRole("admin")) {
-            view.editProduct(product);
+    public void rowSelected(final Employee employee) {
+            view.editEmployee(employee);
         }
     }
 

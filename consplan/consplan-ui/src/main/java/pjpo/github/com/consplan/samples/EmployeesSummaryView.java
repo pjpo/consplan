@@ -4,13 +4,13 @@ import java.util.Collection;
 import java.util.ResourceBundle;
 
 import pjpo.github.com.consplan.dao.EmployeesDao;
-
-import com.github.pjpo.consplan.library.model.Employee;
+import pjpo.github.com.consplan.model.Employee;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Grid.SelectionModel;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -43,10 +43,8 @@ public class EmployeesSummaryView  extends CssLayout implements View {
 
     	// Sets the content of grids
     	this.grid = new EmployeesSummaryGrid();
-    	grid.setEmployees(new EmployeesDao().getEmployees());
-
     	// Sets logic for grid
-    	this.logic = new EmployeesSummaryLogic(this);
+    	this.logic = new EmployeesSummaryLogic(this, new EmployeesDao());
     	
     	// full content
     	final VerticalLayout barAndGridLayout = new VerticalLayout();
@@ -76,13 +74,45 @@ public class EmployeesSummaryView  extends CssLayout implements View {
     	return topLayout;
     }
     
-    public void showEmployees(Collection<Employee> employees) {
-        grid.setEmployees(employees);
-    }
-
     @Override
     public void enter(ViewChangeEvent event) {
     	logic.enter(event);
     }
 
+    public void clearSelection() {
+        grid.getSelectionModel().reset();
+    }
+    
+    public void selectRow(final Employee row) {
+        ((SelectionModel.Single) grid.getSelectionModel()).select(row);
+    }
+
+    public Employee getSelectedRow() {
+        return grid.getSelectedRow();
+    }
+    
+    public void editProduct(final Employee employee) {
+        if (employee != null) {
+            form.addStyleName("visible");
+            form.setEnabled(true);
+        } else {
+            form.removeStyleName("visible");
+            form.setEnabled(false);
+        }
+        form.editEmployee(employee);
+    }
+
+    public void showEmployees(final Collection<Employee> employees) {
+        grid.setEmployees(employees);
+    }
+
+    public void refreshEmployee(final Employee employee) {
+        grid.refresh(employee);
+        grid.scrollTo(employee);
+    }
+
+    public void removeProduct(final Employee employee) {
+        grid.remove(employee);
+    }
+    
 }

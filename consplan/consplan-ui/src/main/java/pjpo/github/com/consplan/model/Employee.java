@@ -1,11 +1,9 @@
 package pjpo.github.com.consplan.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.github.pjpo.consplan.library.utils.IntervalDateTime;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 /**
@@ -13,8 +11,11 @@ import com.google.common.collect.Multimap;
  * @author jp@dm.lan
  *
  */
-public class Employee implements Cloneable {
-
+public class Employee implements com.github.pjpo.consplan.library.model.Employee {
+	
+	/** Workers Internal Id */
+	private Long employeeId = null;
+	
 	/** Worker's name */
 	private String name = null;
 	
@@ -32,9 +33,14 @@ public class Employee implements Cloneable {
 	
 	/** List of positions that this worker can not fill */
 	private List<String> refusedPositions = null;
-	
-	/** Internal indice for this worker (used in choco solver) */
-	private Integer internalIndice = null;
+
+	public Long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(Long employeeId) {
+		this.employeeId = employeeId;
+	}
 
 	public String getName() {
 		return name;
@@ -83,30 +89,9 @@ public class Employee implements Cloneable {
 	public void setRefusedPositions(final List<String> refusedPositions) {
 		this.refusedPositions = refusedPositions;
 	}
-
-	public int getInternalIndice() {
-		return internalIndice;
-	}
-
-	public void setInternalIndice(final Integer internalIndice) {
-		this.internalIndice = internalIndice;
-	}
 	
-	@Override
 	public String toString() {
-		return name + " : (timepart = " + timePart + "; internalindice = " + internalIndice + ")"; 
-	}
-	
-	public Employee clone() {
-		final Employee clonedWorker = new Employee();
-		clonedWorker.setInternalIndice(internalIndice);
-		clonedWorker.setName(name);
-		clonedWorker.setPaidVacations(new ArrayList<>(paidVacations));
-		clonedWorker.setRefusedPositions(new ArrayList<>(refusedPositions));
-		clonedWorker.setTimePart(timePart);
-		clonedWorker.setUnpaidVacations(new ArrayList<>(unpaidVacations));
-		clonedWorker.setWorkedVacs(HashMultimap.create(workedPositions));
-		return clonedWorker;
+		return name + " : (timepart = " + timePart + "; employeeId = " + employeeId + ")"; 
 	}
 
 }

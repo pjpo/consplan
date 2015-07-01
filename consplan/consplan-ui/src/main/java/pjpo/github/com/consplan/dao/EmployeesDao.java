@@ -1,15 +1,18 @@
 package pjpo.github.com.consplan.dao;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
+import pjpo.github.com.consplan.model.Employee;
 
-import com.github.pjpo.consplan.library.model.Employee;
 import com.google.common.collect.HashMultimap;
 
 public class EmployeesDao {
 
-	public List<Employee> getEmployees() {
-		LinkedList<Employee> test = new LinkedList<>();
+	private HashMap<Long, Employee> employees;
+
+	public EmployeesDao() {
+		employees = new HashMap<>();
 		Employee emp = new Employee();
 		emp.setName("Nom1");
 		emp.setPaidVacations(new LinkedList<>());
@@ -17,8 +20,18 @@ public class EmployeesDao {
 		emp.setTimePart(100);
 		emp.setUnpaidVacations(new LinkedList<>());
 		emp.setWorkedVacs(HashMultimap.create());
-		test.add(emp);
-		return test;
+		employees.put(0L, emp);
 	}
 	
+	public Collection<Employee> getEmployees() {
+		return employees.values();
+	}
+
+	public Employee getById(final Long employeeId) {
+		return employees.get(employeeId);
+	}
+	
+	public void deleteEmployee(final Long employeeId) {
+		employees.remove(employeeId);
+	}
 }
