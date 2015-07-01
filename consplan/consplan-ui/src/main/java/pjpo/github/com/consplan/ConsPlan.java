@@ -32,6 +32,10 @@ public class ConsPlan extends UI {
         // Set content
         setContent(new MainScreen(this));
     }
+    
+    public static ConsPlan get() {
+    	return (ConsPlan) UI.getCurrent();
+    }
 
     @WebServlet(urlPatterns = "/*", name = "ConsPlanServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = ConsPlan.class, productionMode = false)

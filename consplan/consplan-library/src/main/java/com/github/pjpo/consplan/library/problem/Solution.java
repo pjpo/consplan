@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import com.github.pjpo.consplan.library.model.Position;
-import com.github.pjpo.consplan.library.model.Employee;
 import com.github.pjpo.consplan.library.utils.IntervalDateTime;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table.Cell;
@@ -23,7 +21,7 @@ import com.google.common.collect.Table.Cell;
 public class Solution {
 	
 	/** Stores the positions */	
-	private final HashBasedTable<LocalDate, String, Position> positions;
+	private final HashBasedTable<LocalDate, String, SolverPosition> positions;
 	
 	/** Stores the workload of each worker */
 	private final HashMap<Integer, Long> workLoads;
@@ -38,9 +36,9 @@ public class Solution {
 	private final Long undefinedPositionsNb;
 	
 	/**Undefined worker */
-	private final Employee undefinedWorker = new Employee() {{
-		setInternalIndice(-1);
-		setName("Undefined");
+	private final SolverEmployee undefinedWorker = new SolverEmployee() {{
+		setChocoIndice(-1);
+		setEmployee(null);
 	}};
 	
 	/**
@@ -50,13 +48,13 @@ public class Solution {
 	 * @param positions positions from solver (with choco internal value)
 	 */
 	public Solution(
-			final HashMap<Integer, Employee> physicians,
-			final HashBasedTable<LocalDate, String, Position> positions) {
+			final HashMap<Integer, SolverEmployee> physicians,
+			final HashBasedTable<LocalDate, String, SolverPosition> positions) {
 
 		this.positions = positions;
 		this.workLoads = new HashMap<>(physicians.size());
 
-		for (final Cell<LocalDate, String, Position> position : positions.cellSet()) {
+		for (final Cell<LocalDate, String, SolverPosition> position : positions.cellSet()) {
 			// Gets the solution from solver of the selected physician
 			final int selectedWorker = position.getValue().getInternalChocoRepresentation().getValue();
 			if (physicians.containsKey(selectedWorker)) {
@@ -68,19 +66,19 @@ public class Solution {
 		}
 		
 		// INITS THE WORK LOAD
-		for (final Entry<Integer, Employee> physician : physicians.entrySet()) {
+		for (final Entry<Integer, SolverEmployee> physician : physicians.entrySet()) {
 			workLoads.put(physician.getKey(), 0L);
 		}
 
 		// 1 - COUNTS THE WORKLOAD FOR EACH PHYSICIAN AND EACH DAY
-		for (final Cell<LocalDate, String, Position> position : positions.cellSet()) {
+		for (final Cell<LocalDate, String, SolverPosition> position : positions.cellSet()) {
 			// Only keep the physicians (real people)
-			if (position.getValue().getWorker().getInternalIndice() > 0) {
-				final Long newWorkLong = workLoads.get(position.getValue().getWorker().getInternalIndice()) +
+			if (position.getValue().getWorker().getChocoIndice() > 0) {
+				final Long newWorkLong = workLoads.get(position.getValue().getWorker().getChocoIndice()) +
 						// Here, we use a scaling of the time part defined in Position, and then
 						// adapt depending on the time part
-						Long.divideUnsigned(10000000L * position.getValue().getWorkLoad(), position.getValue().getWorker().getTimePart());
-				workLoads.put(position.getValue().getWorker().getInternalIndice(), newWorkLong);
+						Long.divideUnsigned(10000000L * position.getValue().getWorkLoad(), position.getValue().getWorker().getEmployee().getTimePart());
+				workLoads.put(position.getValue().getWorker().getChocoIndice(), newWorkLong);
 			}
 		}
 		
@@ -95,13 +93,13 @@ public class Solution {
 			final HashSet<LocalDate> clonedWorkedDays = (HashSet<LocalDate>) workedDays.clone();
 	
 			// 2 - FINDS THE PHYSICIAN
-			final Employee physician = physicians.get(workLoad.getKey());
+			final SolverEmployee physician = physicians.get(workLoad.getKey());
 			
 			// 3 - REMOVES THE NOT WORKED DAYS (PAID VACATIONS)
 			final Iterator<LocalDate> localDateIt = clonedWorkedDays.iterator();
 			while (localDateIt.hasNext()) {
 				final LocalDate localDate = localDateIt.next();
-				for (final IntervalDateTime vacation : physician.getPaidVacations()) {
+				for (final IntervalDateTime vacation : physician.getEmployee().getPaidVacations()) {
 					if (vacation.isOverlapping(new IntervalDateTime(localDate.atTime(12, 00), localDate.atTime(12, 30)))) {
 						// DATE IS OUTSIDE WORK RANGE, REMOVE IT FROM WORKED DAYS FOR THIS PHYSICIAN
 						localDateIt.remove();
@@ -129,14 +127,14 @@ public class Solution {
 					((double) workLoads.size() - 1D));
 		
 		// Sets the number of undefined positions
-		undefinedPositionsNb = positions.values().stream().filter((position) -> position.getWorker().getInternalIndice() == -1).count();
+		undefinedPositionsNb = positions.values().stream().filter((position) -> position.getWorker().getChocoIndice() == -1).count();
 	}
 	
 	/**
 	 * Returns the positions for the planning
 	 * @return
 	 */
-	public HashBasedTable<LocalDate, String, Position> getPositions() {
+	public HashBasedTable<LocalDate, String, SolverPosition> getPositions() {
 		return positions;
 	}
 	
@@ -145,8 +143,8 @@ public class Solution {
 	 * @param physician
 	 * @return
 	 */
-	public Long getWorkLoad(final Employee physician) {
-		return workLoads.get(physician.getInternalIndice());
+	public Long getWorkLoad(final SolverEmployee physician) {
+		return workLoads.get(physician.getChocoIndice());
 	}
 
 	

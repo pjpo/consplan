@@ -9,10 +9,11 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import com.github.pjpo.consplan.library.problem.SolverPosition;
 import com.github.pjpo.consplan.library.utils.IntervalDateTime;
 
 /**
- * definitions of a position. From these definitions, creates a {@link Position} from a date.
+ * definitions of a position. From these definitions, creates a {@link SolverPosition} from a date.
  * @author jp@dm.lan
  *
  */
@@ -49,10 +50,10 @@ public class PositionDefinition {
 	 * @return position, or null if no such position exists for this day
 	 * @throws ScriptException
 	 */
-	public Position getPosition(final LocalDate dateWorking) throws ScriptException {
+	public SolverPosition getPosition(final LocalDate dateWorking) throws ScriptException {
 
 		try {
-			final Position position = new Position();
+			final SolverPosition position = new SolverPosition();
 			
 			// Invokes the function with date as a parameter which defines the Position fields
 			engine.eval(script);

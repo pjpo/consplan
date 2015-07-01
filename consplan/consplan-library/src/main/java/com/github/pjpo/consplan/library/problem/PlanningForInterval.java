@@ -6,10 +6,9 @@ import java.util.List;
 
 import javax.script.ScriptException;
 
-import com.github.pjpo.consplan.library.model.Position;
+import com.github.pjpo.consplan.library.model.Employee;
 import com.github.pjpo.consplan.library.model.PositionConstraintBase;
 import com.github.pjpo.consplan.library.model.PositionDefinition;
-import com.github.pjpo.consplan.library.model.Employee;
 import com.github.pjpo.consplan.library.utils.IntervalDate;
 import com.google.common.collect.HashBasedTable;
 
@@ -23,7 +22,7 @@ public class PlanningForInterval {
 	// ==== Informative fields (external) ====
 	
 	/** List of used physicians */
-	private final HashMap<Integer, Employee> physicians;
+	private final HashMap<Integer, SolverEmployee> solverEmployees;
 	
 	/** List of intra and interday constraints */
 	private final List<PositionConstraintBase> positionsConstraints;
@@ -31,7 +30,7 @@ public class PlanningForInterval {
 	// ==== Calculated invariable fields (reference) ====
 	
 	/** List of positions By Date and name (indexed positions)*/
-	private final HashBasedTable<LocalDate, String, Position> positions;
+	private final HashBasedTable<LocalDate, String, SolverPosition> positions;
 
 	// ==== Variable Fields ====
 				
@@ -51,7 +50,7 @@ public class PlanningForInterval {
 	 */
 	public PlanningForInterval(
 			final IntervalDate intervalDate,
-			final HashMap<Integer, Employee> physicians,
+			final List<Employee> employees,
 			final List<PositionDefinition> positionsDefinitions,
 			final List<PositionConstraintBase> positionsConstraints) {
 		
@@ -59,8 +58,17 @@ public class PlanningForInterval {
 		if (intervalDate.getStart() == null || intervalDate.getEnd() == null)
 			throw new IllegalArgumentException("interval must be finite");
 		
+		// Sets the internal values for choco solver
+		this.solverEmployees = new HashMap<Integer, SolverEmployee>(employees.size());
+		int i = 1;
+		for (final Employee employee : employees) {
+			final SolverEmployee solverEmployee = new SolverEmployee();
+			solverEmployee.setChocoIndice(i++);
+			solverEmployee.setEmployee(employee);
+			this.solverEmployees.put(solverEmployee.getChocoIndice(), solverEmployee);
+		}
+		
 		// Sets the values of class fields
-		this.physicians = physicians;
 		this.positionsConstraints = positionsConstraints;
 		
 		// Creates the positions arraytable with predefined size
@@ -70,7 +78,7 @@ public class PlanningForInterval {
 		for (LocalDate date = intervalDate.getStart() ; !date.isAfter(intervalDate.getEnd()) ; date = date.plusDays(1L)) {
 			for (final PositionDefinition positionCode : positionsDefinitions) {
 				try {
-					final Position position = positionCode.getPosition(date);
+					final SolverPosition position = positionCode.getPosition(date);
 					if (position.getIsActive())
 						positions.put(date, position.getName(), position);
 				} catch (ScriptException e) {
@@ -91,7 +99,7 @@ public class PlanningForInterval {
 		// - The constraints
 		// - The already found solutions
 		final PlanningForIntervalSolver solver =
-				new PlanningForIntervalSolver(physicians, positions, positionsConstraints, solution);
+				new PlanningForIntervalSolver(solverEmployees, positions, positionsConstraints, solution);
 		
 		// Finds a new solution
 		final Solution newSolution = solver.findSolution();

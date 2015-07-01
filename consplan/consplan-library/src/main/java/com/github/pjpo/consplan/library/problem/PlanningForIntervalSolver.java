@@ -16,12 +16,10 @@ import org.chocosolver.solver.variables.IntVar;
 import org.chocosolver.solver.variables.VariableFactory;
 import org.chocosolver.util.ESat;
 
-import com.github.pjpo.consplan.library.model.Position;
 import com.github.pjpo.consplan.library.model.PositionConstraintBase;
 import com.github.pjpo.consplan.library.model.PositionConstraintRuleElement;
 import com.github.pjpo.consplan.library.model.PositionDifferentConstraint;
 import com.github.pjpo.consplan.library.model.PositionEqualConstraint;
-import com.github.pjpo.consplan.library.model.Employee;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table.Cell;
 
@@ -31,16 +29,16 @@ public class PlanningForIntervalSolver {
 	private final Solver solver;
 	
 	/** Private HashTable for storing intvars from choco solver */
-	private final HashBasedTable<LocalDate, String, Position> positions = HashBasedTable.create();
+	private final HashBasedTable<LocalDate, String, SolverPosition> positions = HashBasedTable.create();
 	
 	/** Private Hashtable for storing positions depending on intvar (index) */
-	private final HashMap<IntVar, Position> intVarPositions = new HashMap<>();
+	private final HashMap<IntVar, SolverPosition> intVarPositions = new HashMap<>();
 	
 	/** Random number generator */
 	private final Random random = new Random(new Date().getTime()); 
 	
-	/** Defined emplyees with their internal indices in solver */
-	private final HashMap<Integer, Employee> physicians;
+	/** Defined employees with their internal indices in solver */
+	private final HashMap<Integer, SolverEmployee> physicians;
 	
 	/**
 	 * Creates a new solver for the positions defined in {@code positions}
@@ -51,8 +49,8 @@ public class PlanningForIntervalSolver {
 	 * @param previousSolution
 	 */
 	public PlanningForIntervalSolver(
-			final HashMap<Integer, Employee> physicians,
-			final HashBasedTable<LocalDate, String, Position> positions,
+			final HashMap<Integer, SolverEmployee> physicians,
+			final HashBasedTable<LocalDate, String, SolverPosition> positions,
 			final List<PositionConstraintBase> positionsConstraints,
 			final Solution previousSolution) {
 		
@@ -65,8 +63,8 @@ public class PlanningForIntervalSolver {
 		// If a previous accepted solution exists, use it in order to clone the previous solution, else use the table
 		// of positions as a reference
 		// Clones the positions in order to modify them depending on the solver
-		for (final Cell<LocalDate, String, Position> position : previousSolution != null ? previousSolution.getPositions().cellSet() : positions.cellSet()) {
-			this.positions.put(position.getRowKey(), position.getColumnKey(), (Position) position.getValue().clone());
+		for (final Cell<LocalDate, String, SolverPosition> position : previousSolution != null ? previousSolution.getPositions().cellSet() : positions.cellSet()) {
+			this.positions.put(position.getRowKey(), position.getColumnKey(), (SolverPosition) position.getValue().clone());
 		}
 		
 		// If previous solutions exist, alters the positions cloned to adapt burden of work
@@ -80,9 +78,9 @@ public class PlanningForIntervalSolver {
 			int shaker = Double.valueOf(Math.pow(randomInt, exponent)).intValue() + 1;
 			
 			// lighten burden of work
-			for (final Cell<LocalDate, String, Position> position : this.positions.cellSet()) {
+			for (final Cell<LocalDate, String, SolverPosition> position : this.positions.cellSet()) {
 				// If Worker is a pseudo worker, removes the physician
-				if (position.getValue().getWorker().getInternalIndice() < 0) {
+				if (position.getValue().getWorker().getChocoIndice() < 0) {
 					position.getValue().setWorker(null);
 				} else {
 					// For this worker, see the number of mean workload for his workload
@@ -97,12 +95,12 @@ public class PlanningForIntervalSolver {
 
 		// For each position, give any possibility
 		// The setting of the predefined employees... are done in the random strategy
-		for (final Cell<LocalDate, String, Position> position : this.positions.cellSet()) {
+		for (final Cell<LocalDate, String, SolverPosition> position : this.positions.cellSet()) {
 			// If we have already a worker, use it and sets the IntVar as fixed
 			if (position.getValue().getWorker() != null) {
 				position.getValue().setInternalChocoRepresentation(
 						VariableFactory.fixed(position.getColumnKey() + "_" + position.getRowKey(),
-								position.getValue().getWorker().getInternalIndice(), solver));
+								position.getValue().getWorker().getChocoIndice(), solver));
 			}
 			// If no worker is defined, anyone can be defined at this position (depending on randomstrategy)
 			else {
@@ -125,7 +123,7 @@ public class PlanningForIntervalSolver {
 					// Date of element selected
 					final LocalDate targetDate = date.plusDays(element.getDeltaDays());
 					// Targeted position
-					final Position position = this.positions.get(targetDate, element.getPositionName());
+					final SolverPosition position = this.positions.get(targetDate, element.getPositionName());
 					if (position != null) {
 						// Internal Position (representation for Solver)
 						final IntVar internalPosition = this.positions.get(targetDate, element.getPositionName()).getInternalChocoRepresentation();
@@ -155,7 +153,7 @@ public class PlanningForIntervalSolver {
 		// All IntVars
 		final IntVar[] intVars = new IntVar[this.positions.size()];
 		int i = 0;
-		for (final Position position : this.positions.values()) {
+		for (final SolverPosition position : this.positions.values()) {
 			intVars[i] = position.getInternalChocoRepresentation();
 			i++;
 		}
@@ -193,7 +191,7 @@ public class PlanningForIntervalSolver {
 	 * Returns the positions in the solver, indexed by internal choco defined vars
 	 * @return
 	 */
-	public HashMap<IntVar, Position> getIntVarPositions() {
+	public HashMap<IntVar, SolverPosition> getIntVarPositions() {
 		return intVarPositions;
 	}
 

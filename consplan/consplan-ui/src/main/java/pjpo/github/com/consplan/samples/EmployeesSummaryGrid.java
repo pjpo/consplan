@@ -9,9 +9,9 @@ import com.vaadin.data.util.MethodProperty;
 import com.vaadin.ui.Grid;
 
 @SuppressWarnings("serial")
-public class EmployeesGrid extends Grid {
+public class EmployeesSummaryGrid extends Grid {
 
-	public EmployeesGrid() {
+	public EmployeesSummaryGrid() {
         setSizeFull();
 
         setSelectionMode(SelectionMode.SINGLE);

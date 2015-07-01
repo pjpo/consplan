@@ -1,4 +1,4 @@
-package com.github.pjpo.consplan.library.model;
+package com.github.pjpo.consplan.library.problem;
 
 import org.chocosolver.solver.Solver;
 import org.chocosolver.solver.variables.IntVar;
@@ -6,7 +6,7 @@ import org.chocosolver.solver.variables.IntVar;
 import com.github.pjpo.consplan.library.utils.IntervalDateTime;
 
 /**
- * Represents a position in planning, having multiple fields :
+ * Represents an actual position in planning, having multiple fields :
  * <ul>
  *   <li>External datas : name of position, date, workload, ... </li>
  *   <li>Internal datas : an {@link IntVar} which represents the internal representation in Choco Solver</li>
@@ -14,7 +14,7 @@ import com.github.pjpo.consplan.library.utils.IntervalDateTime;
  * @author jp@dm.lan
  *
  */
-public class Position implements Cloneable {
+public class SolverPosition implements Cloneable {
 
 	/** Name of this position */
 	private String name;
@@ -32,7 +32,7 @@ public class Position implements Cloneable {
 	private IntVar internalChocoRepresentation;
 	
 	/** Worker at this position */
-	private Employee worker;
+	private SolverEmployee worker;
 	
 	/**
 	 * Returns bounds of this position
@@ -118,7 +118,7 @@ public class Position implements Cloneable {
 	 * Gets the Employee defined for this position
 	 * @return
 	 */
-	public Employee getWorker() {
+	public SolverEmployee getWorker() {
 		return worker;
 	}
 
@@ -126,13 +126,13 @@ public class Position implements Cloneable {
 	 * Sets the employee for this position at this day
 	 * @param worker
 	 */
-	public void setWorker(final Employee worker) {
+	public void setWorker(final SolverEmployee worker) {
 		this.worker = worker;
 	}
 	
 	@Override
 	public Object clone() {
-		final Position clonedPosition = new Position();
+		final SolverPosition clonedPosition = new SolverPosition();
 		clonedPosition.setBounds(bounds);
 		clonedPosition.setIsActive(isActive);
 		clonedPosition.setWorkLoad(workLoad);

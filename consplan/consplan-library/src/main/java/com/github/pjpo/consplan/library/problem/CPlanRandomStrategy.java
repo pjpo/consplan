@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 import org.chocosolver.solver.search.strategy.selectors.IntValueSelector;
 import org.chocosolver.solver.variables.IntVar;
 
-import com.github.pjpo.consplan.library.model.Position;
-import com.github.pjpo.consplan.library.model.Employee;
 import com.github.pjpo.consplan.library.utils.IntervalDateTime;
 
 /**
@@ -28,10 +26,10 @@ public class CPlanRandomStrategy implements IntValueSelector {
 	private final Random rand = new Random(new Date().getTime());
 	
 	/** Physicians */
-	private final HashMap<Integer, Employee> physicians;
+	private final HashMap<Integer, SolverEmployee> physicians;
 
 	/** Private Hashtable for storing positions depending on intvar (index) */
-	private final HashMap<IntVar, Position> intVarPositions;
+	private final HashMap<IntVar, SolverPosition> intVarPositions;
 	
 	/** Number of retrys for each position */
 	private final HashMap<IntVar, Integer> retrys = new HashMap<>();
@@ -50,8 +48,8 @@ public class CPlanRandomStrategy implements IntValueSelector {
 	 * @param physicians
 	 */
 	public CPlanRandomStrategy(
-			final HashMap<Integer, Employee> physicians,
-			final HashMap<IntVar, Position> intVarPositions) {
+			final HashMap<Integer, SolverEmployee> physicians,
+			final HashMap<IntVar, SolverPosition> intVarPositions) {
 		this.physicians = physicians;
 		this.intVarPositions = intVarPositions;
 	}
@@ -86,11 +84,11 @@ public class CPlanRandomStrategy implements IntValueSelector {
 			// else find a possible worker
 			else {
 				// Position for this intvar
-				final Position position = intVarPositions.get(var);
+				final SolverPosition position = intVarPositions.get(var);
 				
 				// Does somebody has to work this day ?
-				for (final Entry<Integer, Employee> physician : physicians.entrySet()) {
-					if (physician.getValue().getWorkedPositions().containsEntry(position.getBounds().getStart().toLocalDate(), position.getName())) {
+				for (final Entry<Integer, SolverEmployee> physician : physicians.entrySet()) {
+					if (physician.getValue().getEmployee().getWorkedPositions().containsEntry(position.getBounds().getStart().toLocalDate(), position.getName())) {
 						return physician.getKey();
 					}
 				}
@@ -103,20 +101,20 @@ public class CPlanRandomStrategy implements IntValueSelector {
 				// If this element has not been computed, list employees
 				if (!employeesPerPosition.containsKey(var)) {
 				
-					eachPhysician : for (final Entry<Integer, Employee> physician : physicians.entrySet()) {
+					eachPhysician : for (final Entry<Integer, SolverEmployee> physician : physicians.entrySet()) {
 						
 						// CHECK IF THIS PHYSICIAN HAS THE RIGHT TO WORK AT THIS POSITION
-						if (physician.getValue().getRefusedPositions().contains(position.getName()))
+						if (physician.getValue().getEmployee().getRefusedPositions().contains(position.getName()))
 							continue eachPhysician;					
 						
 						// CHECK IF PHYSICIAN IS IN PAID VACATIONS
-						for (final IntervalDateTime vacation : physician.getValue().getPaidVacations()) {
+						for (final IntervalDateTime vacation : physician.getValue().getEmployee().getPaidVacations()) {
 							if (vacation.isOverlapping(position.getBounds()))
 								continue eachPhysician;
 						}
 						
 						// CHECK IF PHYSICIAN IS IN UNPAID VACATIONS
-						for (final IntervalDateTime vacation : physician.getValue().getUnpaidVacations()) {
+						for (final IntervalDateTime vacation : physician.getValue().getEmployee().getUnpaidVacations()) {
 							if (vacation.isOverlapping(position.getBounds()))
 								continue eachPhysician;
 						}
@@ -138,7 +136,7 @@ public class CPlanRandomStrategy implements IntValueSelector {
 					// Afterwards, find which physician was pointed by this random number 
 					
 					// Sum of work part
-					final int totalWorkPart = employeesAbleToWorkIndices.stream().collect(Collectors.summingInt((personNb) -> physicians.get(personNb).getTimePart()));
+					final int totalWorkPart = employeesAbleToWorkIndices.stream().collect(Collectors.summingInt((personNb) -> physicians.get(personNb).getEmployee().getTimePart()));
 
 					// Randomizes a value between 1 and total work part
 					final int workingElapsed = rand.nextInt(totalWorkPart - 1) + 1;
@@ -147,7 +145,7 @@ public class CPlanRandomStrategy implements IntValueSelector {
 					int workPartElapsed = 1;
 					
 					for (final Integer personNb : employeesAbleToWorkIndices) {
-						workPartElapsed += physicians.get(personNb).getTimePart();
+						workPartElapsed += physicians.get(personNb).getEmployee().getTimePart();
 						if (workPartElapsed > workingElapsed)
 							return personNb;
 					}

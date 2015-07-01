@@ -1,11 +1,10 @@
 package com.github.pjpo.consplan.library.problem;
 
-import java.util.HashMap;
 import java.util.List;
 
+import com.github.pjpo.consplan.library.model.Employee;
 import com.github.pjpo.consplan.library.model.PositionConstraintBase;
 import com.github.pjpo.consplan.library.model.PositionDefinition;
-import com.github.pjpo.consplan.library.model.Employee;
 import com.github.pjpo.consplan.library.utils.IntervalDate;
 
 /**
@@ -19,8 +18,8 @@ import com.github.pjpo.consplan.library.utils.IntervalDate;
  */
 public class PlanningDefinition {
 
-	/** List of used physicians with their internal indice number*/
-	private final HashMap<Integer, Employee> physicians;
+	/** List of used physicians */
+	private final List<Employee> physicians;
 	
 	/** List of positions definitions */
 	private final List<PositionDefinition> positionsDefinitions;
@@ -34,10 +33,10 @@ public class PlanningDefinition {
 	 * @param positionsCode
 	 */
 	public PlanningDefinition(
-			final HashMap<Integer, Employee> physicians,
+			final List<Employee> employees,
 			final List<PositionDefinition> positionsCode,
 			final List<PositionConstraintBase> positionsConstraints) {
-		this.physicians = physicians;
+		this.physicians = employees;
 		this.positionsDefinitions = positionsCode;
 		this.positionsConstraints = positionsConstraints;
 	}
@@ -52,10 +51,10 @@ public class PlanningDefinition {
 	}
 	
 	/**
-	 * Returns the defined possible employees with their defined indice
+	 * Returns the defined possible employees
 	 * @return
 	 */
-	public HashMap<Integer, Employee> getPhysicians() {
+	public List<Employee> getEmployees() {
 		return physicians;
 	}
 	

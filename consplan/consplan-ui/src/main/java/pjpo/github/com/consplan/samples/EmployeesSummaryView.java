@@ -1,7 +1,11 @@
 package pjpo.github.com.consplan.samples;
 
+import java.util.Collection;
 import java.util.ResourceBundle;
 
+import pjpo.github.com.consplan.dao.EmployeesDao;
+
+import com.github.pjpo.consplan.library.model.Employee;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -25,8 +29,12 @@ public class EmployeesSummaryView  extends CssLayout implements View {
 	 */
     private final ResourceBundle resourceText = ResourceBundle.getBundle("pjpo.github.com.consplan.samples.EmployeesGrid", UI.getCurrent().getLocale());;
 	
+    private final EmployeesSummaryGrid grid;
+    
+    private final EmployeesSummaryLogic logic;
+    
     public EmployeesSummaryView() {
-
+    	
     	setSizeFull();
     	addStyleName("employees-summary-view");
     	
@@ -34,8 +42,12 @@ public class EmployeesSummaryView  extends CssLayout implements View {
     	final HorizontalLayout topLayout = createTopBar();
 
     	// Sets the content of grids
-    	final EmployeesGrid grid = new EmployeesGrid();
+    	this.grid = new EmployeesSummaryGrid();
+    	grid.setEmployees(new EmployeesDao().getEmployees());
 
+    	// Sets logic for grid
+    	this.logic = new EmployeesSummaryLogic(this);
+    	
     	// full content
     	final VerticalLayout barAndGridLayout = new VerticalLayout();
     	barAndGridLayout.addComponent(topLayout);
@@ -63,10 +75,14 @@ public class EmployeesSummaryView  extends CssLayout implements View {
     	topLayout.setStyleName("top-bar");
     	return topLayout;
     }
+    
+    public void showEmployees(Collection<Employee> employees) {
+        grid.setEmployees(employees);
+    }
 
     @Override
     public void enter(ViewChangeEvent event) {
-    	// Do nothing
+    	logic.enter(event);
     }
 
 }
