@@ -8,8 +8,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
-import com.github.pjpo.consplan.library.model.PositionConstraintBase;
 import com.github.pjpo.consplan.library.dao.ExprParser;
+import com.github.pjpo.consplan.library.model.PositionConstraintBase;
 
 /**
  * Transforms the code of constraints written in pseudo-langage into java mode

@@ -20,6 +20,7 @@ public class MainScreen extends HorizontalLayout {
 	        final Navigator navigator = new Navigator(ui, viewContainer);
 
 	        // Views
+	        navigator.addView("", new EmployeesSummaryView());
 	        navigator.addView(EmployeesSummaryView.NAME, new EmployeesSummaryView());
 	        navigator.addView(CountView.NAME, CountView.class);
 	        

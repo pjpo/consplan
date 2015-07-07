@@ -2,6 +2,8 @@ package pjpo.github.com.consplan.samples;
 
 import java.util.ResourceBundle;
 
+import org.chocosolver.util.objects.setDataStructures.SetFactory;
+
 import pjpo.github.com.consplan.dao.EmployeesDao;
 import pjpo.github.com.consplan.model.Employee;
 
@@ -13,6 +15,7 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.Page;
+import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
@@ -21,13 +24,14 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 public class EmployeeForm extends CssLayout {
 	
-	private static final String FORMITEM = "form-item"; 
+	private static final String FORMITEM = "employee-form-item"; 
 	
-	private static final String FORMSTYLE = "form-employee"; 
+	private static final String FORMSTYLE = "employee-form-wrapper"; 
 
 	private TextField name;
 	
@@ -48,6 +52,8 @@ public class EmployeeForm extends CssLayout {
 
     public EmployeeForm(final EmployeesSummaryLogic logic, final EmployeesDao employeesDao) {
     	
+    	setHeight(100f, Sizeable.Unit.PERCENTAGE);
+    	
     	final Label nameLabel = new Label(resourceText.getString("FormNameLabel"));
 		final Label timePartLabel = new Label(resourceText.getString("FormTimePartLabel"));
 		name = new TextField();
@@ -57,12 +63,14 @@ public class EmployeeForm extends CssLayout {
 		nameLayout.addStyleName(FORMITEM);
 		nameLayout.addComponent(nameLabel);
 		nameLayout.addComponent(name);
+		nameLayout.setWidth(100f, Sizeable.Unit.PERCENTAGE);
 		addComponent(nameLayout);
 
 		final CssLayout timePartLayout = new CssLayout();
 		timePartLayout.addStyleName(FORMITEM);
 		timePartLayout.addComponent(timePartLabel);
 		timePartLayout.addComponent(timePart);
+		timePartLayout.setWidth(100f, Sizeable.Unit.PERCENTAGE);
 		addComponent(timePartLayout);
 		
 		final CssLayout buttonsLayout = new CssLayout();
@@ -72,6 +80,7 @@ public class EmployeeForm extends CssLayout {
 		buttonsLayout.addComponent(cancel);
 		delete = new Button(resourceText.getString("FormDeleteLabel"));
 		buttonsLayout.addComponent(delete);
+		buttonsLayout.setWidth(100f, Sizeable.Unit.PERCENTAGE);
 		addComponent(buttonsLayout);
 		
 		addStyleName(FORMSTYLE);

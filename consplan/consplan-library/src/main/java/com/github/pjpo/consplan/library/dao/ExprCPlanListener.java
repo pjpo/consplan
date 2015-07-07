@@ -6,8 +6,7 @@ import java.util.List;
 import com.github.pjpo.consplan.library.model.PositionConstraintBase;
 import com.github.pjpo.consplan.library.model.PositionDifferentConstraint;
 import com.github.pjpo.consplan.library.model.PositionEqualConstraint;
-import com.github.pjpo.consplan.library.dao.ExprBaseListener;
-import com.github.pjpo.consplan.library.dao.ExprParser;
+
 
 /**
  * Class between Parser and Data access object to read a constraints code

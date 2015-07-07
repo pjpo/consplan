@@ -58,17 +58,21 @@ public class EmployeesSummaryView  extends CssLayout implements View {
     	barAndGridLayout.setExpandRatio(grid, 1);
     	barAndGridLayout.setStyleName("employees-summary-layout");
 
-    	// Sets the full content as content
-    	addComponent(barAndGridLayout);
-    	
     	// Creates the employee form
     	form = new EmployeeForm(logic, logic.getEmployeesDao());
+        addComponent(form);
+        form.setVisible(true);
+     // Sets the full content as content
+    	addComponent(barAndGridLayout);
     }
 
     public HorizontalLayout createTopBar() {
     	final Button newEmployee = new Button(resourceText.getString("NewEmployee"));
     	newEmployee.addStyleName(ValoTheme.BUTTON_PRIMARY);
     	newEmployee.setIcon(FontAwesome.PLUS_CIRCLE);
+    	newEmployee.addClickListener((event) -> {
+    		logic.newEmployee();
+    	});
 
     	HorizontalLayout topLayout = new HorizontalLayout();
     	topLayout.setSpacing(true);

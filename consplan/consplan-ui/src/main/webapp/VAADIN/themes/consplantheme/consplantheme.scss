@@ -27,10 +27,28 @@
 // For more information, see: https://vaadin.com/book/-/page/themes.valo.html
 // Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
 
+$editor-shadow: 0 0 10px 10px rgba(0,0,0,.1) !default;
+
 @import "../valo/valo.scss";
 
 @mixin consplantheme {
   @include valo;
 
-  // Insert your own theme rules here
+  .v-ui[width-range~="0-550px"] {
+  // Form should take whole browser width when we are under 550px in width.
+  
+    .product-form-wrapper {
+      width:100%;
+    }
+  }
+  
+  .employee-form-item {
+    display: block;
+  }
+
+  // Enables animation for opening CRUD editor
+  .visible {
+  	 @include transform(none);
+     @include box-shadow($editor-shadow);
+  }
 }
