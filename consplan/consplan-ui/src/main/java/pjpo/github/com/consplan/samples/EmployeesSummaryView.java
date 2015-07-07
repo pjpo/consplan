@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import pjpo.github.com.consplan.dao.EmployeesDao;
 import pjpo.github.com.consplan.model.Employee;
+
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -47,6 +48,9 @@ public class EmployeesSummaryView  extends CssLayout implements View {
     	this.grid = new EmployeesSummaryGrid();
     	// Sets logic for grid
     	this.logic = new EmployeesSummaryLogic(this, new EmployeesDao());
+    	// Sets the reaction to selection
+    	this.grid.addSelectionListener((event) ->
+    		this.logic.rowSelected(this.grid.getSelectedRow()));
     	
     	// full content
     	final VerticalLayout barAndGridLayout = new VerticalLayout();
