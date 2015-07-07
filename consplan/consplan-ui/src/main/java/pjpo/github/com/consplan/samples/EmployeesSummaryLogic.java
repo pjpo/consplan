@@ -95,11 +95,11 @@ public class EmployeesSummaryLogic {
     public void newEmployee() {
         view.clearSelection();
         setFragmentParameter("new");
-        view.editEmployee(new Employee());
+        view.editEmployee(employeesDao.newEmployee());
     }
 
     public void rowSelected(final Employee employee) {
-    	view.editEmployee(employee);
+    	this.editEmployee(employee);
     }
     
     public EmployeesDao getEmployeesDao() {

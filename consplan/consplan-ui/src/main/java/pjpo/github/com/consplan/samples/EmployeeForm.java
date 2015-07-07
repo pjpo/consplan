@@ -142,6 +142,7 @@ public class EmployeeForm extends CssLayout {
         if (employee == null) {
             employee = new Employee();
         }
+        // 
         fieldGroup.setItemDataSource(new BeanItem<Employee>(employee));
 
         // before the user makes any changes, disable validation error indicator
