@@ -1,12 +1,16 @@
 package pjpo.github.com.consplan.samples;
 
 import java.util.Collection;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import pjpo.github.com.consplan.model.Employee;
+
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.MethodProperty;
+import com.vaadin.data.util.converter.Converter;
+import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.UI;
 
@@ -31,7 +35,7 @@ public class EmployeesSummaryGrid extends Grid {
         setColumnOrder("name", "timePart");
         getDefaultHeaderRow().getCell("name").setText(resourceText.getString("GridNameHeader"));
         getDefaultHeaderRow().getCell("timePart").setText(resourceText.getString("GridTimePartHeader"));
-
+        
         // Align columns using a style generator
         setCellStyleGenerator((cellReference) -> {
         	if (cellReference.getPropertyId().equals("name"))

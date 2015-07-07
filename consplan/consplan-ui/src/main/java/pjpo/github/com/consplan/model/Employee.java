@@ -1,7 +1,13 @@
 package pjpo.github.com.consplan.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.github.pjpo.consplan.library.utils.IntervalDateTime;
 import com.google.common.collect.Multimap;
@@ -12,15 +18,20 @@ import com.google.common.collect.Multimap;
  *
  */
 public class Employee implements com.github.pjpo.consplan.library.model.Employee {
-	
+    
 	/** Workers Internal Id */
-	private Long employeeId = -1L;
+	@NotNull
+    private Long employeeId = -1L;
 	
 	/** Worker's name */
-	private String name = null;
+    @NotNull
+    @Size(min = 2, message = "Name must have at least two characters")
+	private String name = "";
 	
 	/** Part time (can be of any scale) */
-	private Integer timePart = null;
+    @NotNull
+    @Min(0)
+    private Integer timePart = 100;
 	
 	/** List of paid vacations */
 	private List<IntervalDateTime> paidVacations = null;

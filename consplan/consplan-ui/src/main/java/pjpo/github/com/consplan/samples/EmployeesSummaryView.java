@@ -57,13 +57,12 @@ public class EmployeesSummaryView  extends CssLayout implements View {
     	barAndGridLayout.setSizeFull();
     	barAndGridLayout.setExpandRatio(grid, 1);
     	barAndGridLayout.setStyleName("employees-summary-layout");
-
+        // Sets the full content as content
+       	addComponent(barAndGridLayout);
+       	
     	// Creates the employee form
     	form = new EmployeeForm(logic, logic.getEmployeesDao());
         addComponent(form);
-        form.setVisible(true);
-     // Sets the full content as content
-    	addComponent(barAndGridLayout);
     }
 
     public HorizontalLayout createTopBar() {

@@ -2,8 +2,6 @@ package pjpo.github.com.consplan.samples;
 
 import java.util.ResourceBundle;
 
-import org.chocosolver.util.objects.setDataStructures.SetFactory;
-
 import pjpo.github.com.consplan.dao.EmployeesDao;
 import pjpo.github.com.consplan.model.Employee;
 
@@ -24,7 +22,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 public class EmployeeForm extends CssLayout {
