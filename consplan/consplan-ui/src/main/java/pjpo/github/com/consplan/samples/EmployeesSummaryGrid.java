@@ -1,7 +1,6 @@
 package pjpo.github.com.consplan.samples;
 
 import java.util.Collection;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import pjpo.github.com.consplan.model.Employee;
@@ -9,8 +8,6 @@ import pjpo.github.com.consplan.model.Employee;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.MethodProperty;
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.UI;
 

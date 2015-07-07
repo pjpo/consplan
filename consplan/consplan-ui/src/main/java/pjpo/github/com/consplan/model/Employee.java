@@ -20,17 +20,17 @@ import com.google.common.collect.Multimap;
 public class Employee implements com.github.pjpo.consplan.library.model.Employee {
     
 	/** Workers Internal Id */
-	@NotNull
+	@NotNull(message = "{notull}")
     private Long employeeId = -1L;
 	
 	/** Worker's name */
-    @NotNull
-    @Size(min = 2, message = "Name must have at least two characters")
+    @NotNull(message = "{nonull}")
+    @Size(min = 2, message = "{employee.name.size}")
 	private String name = "";
 	
 	/** Part time (can be of any scale) */
-    @NotNull
-    @Min(0)
+    @NotNull(message = "{nonull}")
+    @Min(value = 0, message = "{employee.timepart.min}")
     private Integer timePart = 100;
 	
 	/** List of paid vacations */
