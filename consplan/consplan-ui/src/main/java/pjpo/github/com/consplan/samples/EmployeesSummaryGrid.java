@@ -65,7 +65,7 @@ public class EmployeesSummaryGrid extends Grid {
         if (item != null) {
             // Updated element
             @SuppressWarnings("unchecked")
-			MethodProperty<Employee> p = (MethodProperty<Employee>) item.getItemProperty("employeeId");
+			MethodProperty<Employee> p = (MethodProperty<Employee>) item.getItemProperty("name");
             p.fireValueChange();
         } else {
             // New employee
