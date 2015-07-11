@@ -17,7 +17,7 @@ public class Menu extends CssLayout {
 	private final static Object[][] menuElements = {
 		{"Menu.Employees.Item", EmployeesSummaryView.NAME},
 		{"Menu.CurrentEmployee.Item", CountView.NAME},
-		{"Menu.FullPlanning.Item", ""},
+		{"Menu.FullPlanning.Item", IntervalDateTimeForm.NAME + "/test"},
 		{"Menu.PersonalPlanning.Item", ""}
 	};
 	

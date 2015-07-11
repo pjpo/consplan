@@ -18,7 +18,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
-public class EmployeesSummaryView  extends CssLayout implements View {
+public class EmployeesSummaryView extends CssLayout implements View {
 
 	/**
 	 * String definition for this view
@@ -87,7 +87,7 @@ public class EmployeesSummaryView  extends CssLayout implements View {
     }
     
     @Override
-    public void enter(ViewChangeEvent event) {
+    public void enter(final ViewChangeEvent event) {
     	logic.enter(event.getParameters());
     }
 
