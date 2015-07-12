@@ -1,7 +1,5 @@
 package pjpo.github.com.consplan.samples;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -15,12 +13,12 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.declarative.Design;
 
 @SuppressWarnings("serial")
@@ -63,11 +61,11 @@ public class IntervalDateTimeForm extends BaseView {
 		// Builds the UI
 		Design.read("IntervalDateTimeForm.html", this);
 		
-		final String dateformat = 
-				((SimpleDateFormat) DateFormat.getDateInstance(DateFormat.MEDIUM, UI.getCurrent().getLocale())).toLocalizedPattern();
+		start.setResolution(Resolution.SECOND);
+		final DateTimeConverter startConverter = new DateTimeConverter(start);
+		start.setConverter(startConverter);
 		
-		start.setDateFormat(dateformat);
-		end.setDateFormat(dateformat);
+		end.setResolution(Resolution.SECOND);
 		
 		// Sets the form elements
 		fieldGroup = new BeanFieldGroup<IntervalDateTime>(IntervalDateTime.class);
