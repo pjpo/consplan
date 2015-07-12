@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="package-mapping"
+          content="my:pjpo.github.com.consplan.samples" />
+  </head>
+
+  <body>
+    <v-vertical-layout style-name="employees-summary-layout" size-full>
+
+      <v-horizontal-layout style-name="top-bar" width-full>
+      
+        <v-button _id="create" />
+        <v-button _id="delete" />
+
+      </v-horizontal-layout>
+      
+      <my-employees-summary-grid2 _id="grid" :expand="1"/>
+
+    </v-vertical-layout>
+  </body>
+</html>
