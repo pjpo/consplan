@@ -19,8 +19,11 @@ public class DateTimeConverter implements  Converter<Date, LocalDateTime> {
 			final Class<? extends LocalDateTime> targetType,
 			final Locale locale)
 			throws ConversionException {
-		// date object contains a number of milliseconds since the "epoch" - 1 January 1970, 00:00:00 UTC
-		return value.toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
+		if (value == null) 
+			return null;
+		else 
+			// date object contains a number of milliseconds since the "epoch" - 1 January 1970, 00:00:00 UTC
+			return value.toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
 	}
 
 	@Override
@@ -29,8 +32,11 @@ public class DateTimeConverter implements  Converter<Date, LocalDateTime> {
 			final Class<? extends Date> targetType,
 			final Locale locale)
 			throws ConversionException {
-		// date object contains a number of milliseconds since the "epoch" - 1 January 1970, 00:00:00 UTC
-		return Date.from(value.atZone(ZoneOffset.UTC).toInstant());
+		if (value == null)
+			return null;
+		else
+			// date object contains a number of milliseconds since the "epoch" - 1 January 1970, 00:00:00 UTC
+			return Date.from(value.atZone(ZoneOffset.UTC).toInstant());
 	}
 
 	@Override

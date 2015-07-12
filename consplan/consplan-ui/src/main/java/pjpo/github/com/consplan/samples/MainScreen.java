@@ -1,7 +1,8 @@
 package pjpo.github.com.consplan.samples;
 
-import pjpo.github.com.consplan.ConsPlan;
+import java.util.ResourceBundle;
 
+import pjpo.github.com.consplan.ConsPlan;
 
 import com.github.pjpo.consplan.library.utils.IntervalDateTime;
 import com.vaadin.navigator.Navigator;
@@ -25,7 +26,8 @@ public class MainScreen extends HorizontalLayout {
 	        navigator.addView("", new EmployeesSummaryView());
 	        navigator.addView(EmployeesSummaryView.NAME, new EmployeesSummaryView());
 	        navigator.addView(CountView.NAME, CountView.class);
-	        final IntervalDateTimeForm intervalDateTimeForm = new IntervalDateTimeForm();
+	        final IntervalDateTimeForm intervalDateTimeForm = new IntervalDateTimeForm(
+	        		ResourceBundle.getBundle("pjpo.github.com.consplan.samples.IntervalDateTimeForm", UI.getCurrent().getLocale()));
 	        intervalDateTimeForm.register("test",
 	        		(parameters) -> {return new IntervalDateTime();},
 	        		(exitStatus, interval) -> {});

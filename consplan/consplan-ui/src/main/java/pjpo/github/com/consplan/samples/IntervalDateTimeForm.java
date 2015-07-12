@@ -2,6 +2,7 @@ package pjpo.github.com.consplan.samples;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -57,15 +58,21 @@ public class IntervalDateTimeForm extends BaseView {
 	
 	private Button delete;
 	
-	public IntervalDateTimeForm() {
+	public IntervalDateTimeForm(final ResourceBundle resource) {
 		// Builds the UI
 		Design.read("IntervalDateTimeForm.html", this);
 		
+		// Captions internationalization
+		start.setCaption(resource.getString("StartCaption"));
+		end.setCaption(resource.getString("EndCaption"));
+		
 		final DateTimeConverter converter = new DateTimeConverter();
 		start.setResolution(Resolution.SECOND);
+		start.setLenient(true);
 		start.setConverter(converter);
 		
 		end.setResolution(Resolution.SECOND);
+		end.setLenient(true);
 		end.setConverter(converter);
 		
 		// Sets the form elements

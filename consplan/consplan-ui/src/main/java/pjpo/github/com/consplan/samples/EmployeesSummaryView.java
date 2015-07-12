@@ -28,7 +28,7 @@ public class EmployeesSummaryView extends CssLayout implements View {
 	/**
 	 *  Source of localized text
 	 */
-    private final ResourceBundle resourceText = ResourceBundle.getBundle("pjpo.github.com.consplan.samples.EmployeesGrid", UI.getCurrent().getLocale());;
+    private final ResourceBundle resourceText = ResourceBundle.getBundle("pjpo.github.com.consplan.samples.EmployeesGrid", UI.getCurrent().getLocale());
 	
     private final EmployeesSummaryGrid grid;
     
