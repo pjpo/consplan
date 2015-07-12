@@ -61,11 +61,12 @@ public class IntervalDateTimeForm extends BaseView {
 		// Builds the UI
 		Design.read("IntervalDateTimeForm.html", this);
 		
+		final DateTimeConverter converter = new DateTimeConverter();
 		start.setResolution(Resolution.SECOND);
-		final DateTimeConverter startConverter = new DateTimeConverter(start);
-		start.setConverter(startConverter);
+		start.setConverter(converter);
 		
 		end.setResolution(Resolution.SECOND);
+		end.setConverter(converter);
 		
 		// Sets the form elements
 		fieldGroup = new BeanFieldGroup<IntervalDateTime>(IntervalDateTime.class);
