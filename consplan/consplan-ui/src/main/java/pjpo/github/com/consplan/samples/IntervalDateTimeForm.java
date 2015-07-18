@@ -127,8 +127,8 @@ public class IntervalDateTimeForm extends BaseView {
     
 	@Override
 	public void enter(final ViewChangeEvent event,
-			final Map<String, String> parameters) {
-		final String origin = parameters.get("origin");
+			final UrlDecoded urlDecoded) {
+		final String origin = urlDecoded.getParameters().get("origin");
 		final Function<Map<String, String>, IntervalDateTime> enterAction =
 				origin == null ? null : enterActions.get(origin);
 		// No origin asked or this origin has not been registered
@@ -142,7 +142,7 @@ public class IntervalDateTimeForm extends BaseView {
 			// This origin is registered, fire the enter action which returns the
 			// current interval
 			originValue = origin;
-			intervalValue = enterAction.apply(parameters);
+			intervalValue = enterAction.apply(urlDecoded.getParameters());
 			this.setEnabled(true);
 			this.editValue(intervalValue);
 		}

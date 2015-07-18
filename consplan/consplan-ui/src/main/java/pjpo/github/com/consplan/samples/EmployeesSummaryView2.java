@@ -1,15 +1,12 @@
 package pjpo.github.com.consplan.samples;
 
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.navigator.Navigator;
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.declarative.Design;
 import com.vaadin.ui.themes.ValoTheme;
@@ -59,9 +56,9 @@ public class EmployeesSummaryView2 extends BaseView {
     }
 
 	@Override
-	public void enter(final ViewChangeEvent event, final Map<String, String> parameters) {
+	public void enter(final ViewChangeEvent event, final UrlDecoded urlDecoded) {
 		// In parameters, id of element selected or nothing if nothing selected
-		final String selectedS = parameters.get("selected"); 
+		final String selectedS = urlDecoded.getParameters().get("selected"); 
 		Long selectedL = null;
 		if (selectedS != null) {
 			try {
