@@ -48,7 +48,7 @@ public class EmployeesSummaryView2 extends BaseView {
 		create.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		create.setIcon(FontAwesome.PLUS_CIRCLE);
 		delete.addStyleName(ValoTheme.BUTTON_PRIMARY);
-		create.setIcon(FontAwesome.MINUS_CIRCLE);
+		delete.setIcon(FontAwesome.MINUS_CIRCLE);
 
 		create.addClickListener((event) -> {
 		});
