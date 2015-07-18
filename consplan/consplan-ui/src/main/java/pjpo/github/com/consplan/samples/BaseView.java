@@ -17,7 +17,7 @@ public abstract class BaseView extends CssLayout implements View {
 	private static Logger LOGGER = Logger.getLogger(BaseView.class.getName(), "ErrorMessages");
 	
 	@Override
-	public void enter(final ViewChangeEvent event) {
+	final public void enter(final ViewChangeEvent event) {
 		enter(event, parseParameters(event.getParameters()));
 	}
 

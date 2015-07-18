@@ -1,32 +1,25 @@
 package pjpo.github.com.consplan.samples;
 
-import java.util.Collection;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-import pjpo.github.com.consplan.dao.EmployeesDao;
-import pjpo.github.com.consplan.model.Employee;
-
 import com.vaadin.annotations.DesignRoot;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Grid.SelectionModel;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.declarative.Design;
-import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
 @DesignRoot
-public class EmployeesSummaryView2 extends CssLayout implements View {
+public class EmployeesSummaryView2 extends BaseView {
 
 	/**
 	 * String definition for this view
 	 */
-    public static final String NAME = "EmployeesSummary";
+    public static final String NAME = "EmployeesSummary2";
     
 	/**
 	 *  Source of localized text
@@ -35,25 +28,44 @@ public class EmployeesSummaryView2 extends CssLayout implements View {
 	
     // Elements from the ui
     
-    private EmployeesSummaryGrid grid;
+    private EmployeesSummaryGrid2 grid;
     
     private Button create;
     
     private Button delete;
     
-    public EmployeesSummaryView2() {
+    public EmployeesSummaryView2(final Navigator navigator) {
     	// Builds the UI
 		Design.read("EmployeesSummaryView.html", this);
 
-		create.addClickListener((event) -> {
-			
-		});
+		// Sets I18N text
+		create.setCaption(resourceText.getString("CreateEmployee2"));
+		delete.setCaption(resourceText.getString("DeleteEmployee2"));
 		
+		create.addClickListener((event) -> {
+		});
+
+		delete.addClickListener((event) -> {
+		});
+
     }
 
-    @Override
-    public void enter(final ViewChangeEvent event) {
-    	// in event, number of element selected
-    }
+	@Override
+	public void enter(final ViewChangeEvent event, final Map<String, String> parameters) {
+		// In parameters, id of element selected or nothing if nothing selected
+		final String selectedS = parameters.get("selected"); 
+		Long selectedL = null;
+		if (selectedS != null) {
+			try {
+				selectedL = Long.parseLong(selectedS);
+			} catch (Exception e) {
+				// Do nothing, consider nothing has been selected
+			}
+		}
+		
+		System.out.println("Selected = " + selectedL);
+	}
+
+
 
 }
