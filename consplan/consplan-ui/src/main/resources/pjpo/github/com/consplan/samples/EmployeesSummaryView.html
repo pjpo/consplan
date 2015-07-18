@@ -6,7 +6,9 @@
   </head>
 
   <body>
-    <v-vertical-layout style-name="employees-summary-layout" size-full>
+    <v-vertical-layout style-name="employees-summary-layout" size-full margin spacing>
+      
+      <my-employees-summary-grid2 _id="grid" size-full :expand="1"/>
 
       <v-horizontal-layout style-name="top-bar" width-full>
       
@@ -14,8 +16,6 @@
         <v-button _id="delete" />
 
       </v-horizontal-layout>
-      
-      <my-employees-summary-grid2 _id="grid" :expand="1"/>
 
     </v-vertical-layout>
   </body>

@@ -11,6 +11,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.declarative.Design;
+import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
 @DesignRoot
@@ -42,6 +43,10 @@ public class EmployeesSummaryView2 extends BaseView {
 		create.setCaption(resourceText.getString("CreateEmployee2"));
 		delete.setCaption(resourceText.getString("DeleteEmployee2"));
 		
+		// Sets programmatically the necessary theme
+		create.addStyleName(ValoTheme.BUTTON_PRIMARY);
+		delete.addStyleName(ValoTheme.BUTTON_PRIMARY);
+				
 		create.addClickListener((event) -> {
 		});
 
