@@ -7,6 +7,7 @@ import com.vaadin.annotations.DesignRoot;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
@@ -38,15 +39,17 @@ public class EmployeesSummaryView2 extends BaseView {
     public EmployeesSummaryView2(final Navigator navigator) {
     	// Builds the UI
 		Design.read("EmployeesSummaryView.html", this);
-
+		
 		// Sets I18N text
 		create.setCaption(resourceText.getString("CreateEmployee2"));
 		delete.setCaption(resourceText.getString("DeleteEmployee2"));
 		
 		// Sets programmatically the necessary theme
 		create.addStyleName(ValoTheme.BUTTON_PRIMARY);
+		create.setIcon(FontAwesome.PLUS_CIRCLE);
 		delete.addStyleName(ValoTheme.BUTTON_PRIMARY);
-				
+		create.setIcon(FontAwesome.MINUS_CIRCLE);
+
 		create.addClickListener((event) -> {
 		});
 

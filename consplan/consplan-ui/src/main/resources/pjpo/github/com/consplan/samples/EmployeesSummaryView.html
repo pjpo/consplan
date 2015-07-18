@@ -6,17 +6,23 @@
   </head>
 
   <body>
-    <v-vertical-layout style-name="employees-summary-layout" size-full margin spacing>
+  
+    <v-css-layout size-full>
+  
+      <v-vertical-layout style-name="employees-summary-layout" size-full margin spacing>
       
-      <my-employees-summary-grid2 _id="grid" size-full :expand="1"/>
-
-      <v-horizontal-layout style-name="top-bar" width-full>
+        <v-horizontal-layout style-name="top-bar" spacing>
       
-        <v-button _id="create" />
-        <v-button _id="delete" />
+          <v-button _id="create" />
+          <v-button _id="delete" />
 
-      </v-horizontal-layout>
+        </v-horizontal-layout>
 
-    </v-vertical-layout>
+        <my-employees-summary-grid2 _id="grid" size-full :expand spacing />
+
+      </v-vertical-layout>
+
+    </v-css-layout>
+
   </body>
 </html>
