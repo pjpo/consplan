@@ -53,30 +53,7 @@ $employee-form-background-color: #3b3f42 !default;
   
   // Enables the employee form to be on top of grid
   .employee-form-wrapper {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 100;
-    width: round($v-unit-size * 9);
-    height: 100%;
-    overflow: auto;
-    padding: $v-layout-spacing-vertical $v-layout-spacing-horizontal;
-    background-color: $employee-form-background-color;
-    color: valo-font-color($employee-form-background-color, 0.8);
-    
-    right: 0;
     @include transition(all 300ms);
-    @include transform(translatex(100%));
-
-    // Set the context color for the style mixins
-    $temp: $v-app-background-color;
-    $v-app-background-color: $editor-background-color;
-    
-    .v-button {
-      display: block;
-      padding-top: round($v-unit-size / 12);
-      padding-bottom: round($v-unit-size / 12);
-    }
 
   }
 

@@ -4,16 +4,16 @@ import java.util.ResourceBundle;
 
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.navigator.Navigator;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.declarative.Design;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
 @DesignRoot
-public class EmployeesSummaryView2 extends BaseView {
+public class EmployeesSummaryView2 extends CssLayout {
 
 	/**
 	 * String definition for this view
@@ -54,23 +54,5 @@ public class EmployeesSummaryView2 extends BaseView {
 		});
 
     }
-
-	@Override
-	public void enter(final ViewChangeEvent event, final UrlDecoded urlDecoded) {
-		// In parameters, id of element selected or nothing if nothing selected
-		final String selectedS = urlDecoded.getParameters().get("selected"); 
-		Long selectedL = null;
-		if (selectedS != null) {
-			try {
-				selectedL = Long.parseLong(selectedS);
-			} catch (Exception e) {
-				// Do nothing, consider nothing has been selected
-			}
-		}
-		
-		System.out.println("Selected = " + selectedL);
-	}
-
-
 
 }

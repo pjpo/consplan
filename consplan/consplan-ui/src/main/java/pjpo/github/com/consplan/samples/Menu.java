@@ -18,7 +18,7 @@ public class Menu extends CssLayout {
 		{"Menu.Employees.Item", EmployeesSummaryView.NAME},
 		{"Menu.CurrentEmployee.Item", CountView.NAME},
 		{"Menu.FullPlanning.Item", IntervalDateTimeForm.NAME + "/origin=test"},
-		{"Menu.PersonalPlanning.Item", EmployeesSummaryView2.NAME}
+		{"Menu.PersonalPlanning.Item", EmployeesView.NAME}
 	};
 	
 	public Menu(Navigator navigator, Locale locale) {

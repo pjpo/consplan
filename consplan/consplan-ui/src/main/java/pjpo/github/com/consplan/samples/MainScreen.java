@@ -25,7 +25,7 @@ public class MainScreen extends HorizontalLayout {
 	        // Views
 	        navigator.addView("", new EmployeesSummaryView());
 	        navigator.addView(EmployeesSummaryView.NAME, new EmployeesSummaryView());
-	        navigator.addView(EmployeesSummaryView2.NAME, new EmployeesSummaryView2(navigator));
+	        navigator.addView(EmployeesView.NAME, new EmployeesView(navigator));
 	        navigator.addView(CountView.NAME, CountView.class);
 	        final IntervalDateTimeForm intervalDateTimeForm = new IntervalDateTimeForm(
 	        		ResourceBundle.getBundle("pjpo.github.com.consplan.samples.IntervalDateTimeForm", UI.getCurrent().getLocale()));
