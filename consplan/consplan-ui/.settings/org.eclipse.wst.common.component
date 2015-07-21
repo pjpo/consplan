@@ -10,6 +10,9 @@
         <dependent-module archiveName="consplan-library-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/consplan-library/consplan-library">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="consplan-dao-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/consplan-dao/consplan-dao">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="consplan-ui"/>
         <property name="java-output-path" value="/consplan-ui/target/classes"/>
         <property name="component.exclusion.patterns" value="WEB-INF/classes/VAADIN/gwt-unitCache/**,WEB-INF/classes/VAADIN/widgetsets/WEB-INF/**"/>

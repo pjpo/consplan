@@ -48,6 +48,7 @@ public class EmployeesSummaryView2 extends CssLayout {
 		delete.setIcon(FontAwesome.MINUS_CIRCLE);
 
 		create.addClickListener((event) -> {
+			navigator.navigateTo(EmployeesView.NAME + "/form/new");
 		});
 
 		delete.addClickListener((event) -> {

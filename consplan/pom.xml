@@ -106,5 +106,6 @@
     <module>consplan-widgetset</module>
     <module>consplan-ui</module>
     <module>consplan-production</module>
+    <module>consplan-dao</module>
   </modules>
 </project>

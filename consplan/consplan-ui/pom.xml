@@ -45,6 +45,13 @@
             <version>${project.version}</version>
         </dependency>
 
+		<!-- Dao library -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>consplan-dao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Bean validation implementation -->
         <dependency>
             <groupId>org.hibernate</groupId>

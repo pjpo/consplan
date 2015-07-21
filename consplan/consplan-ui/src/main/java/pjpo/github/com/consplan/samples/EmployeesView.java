@@ -23,8 +23,27 @@ public class EmployeesView extends BaseView {
 	@Override
 	public void enter(ViewChangeEvent event, UrlDecoded urlDecoded) {
 		// If form asked, show it
-		if (urlDecoded.getPath().size() == 1 && urlDecoded.getPath().get(0).equals("form")) {
-			form.setEditedEmployee(new Employee());
+		if (urlDecoded.getPath().size() == 2 && urlDecoded.getPath().get(0).equals("form")) {
+			// See if we are in a create action or in a modify action
+			Employee editedEmployee = null;
+			if (urlDecoded.getPath().get(1).equals("modify")) {
+				// Gets the selected id
+				if (urlDecoded.getParameters().containsKey("id")) {
+					try {
+						final Long EmployeeId = Long.decode(urlDecoded.getParameters().get("id"));
+					} catch (Exception ex) {
+						// Do nothing, create only element
+					}
+				}
+				form.setEditedEmployee(new Employee());
+			}
+			// If employee not set, create new employee
+			if (editedEmployee == null)
+				editedEmployee = new Employee();
+			
+			// Show this employee in form
+			form.setEditedEmployee(editedEmployee);
+			
 			removeAllComponents();
 			addComponent(form);
 		}
