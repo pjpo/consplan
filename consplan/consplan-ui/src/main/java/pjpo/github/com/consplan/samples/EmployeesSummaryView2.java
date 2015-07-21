@@ -27,9 +27,12 @@ public class EmployeesSummaryView2 extends CssLayout {
 	
     // Elements from the ui
     
-    private EmployeesSummaryGrid2 grid;
+    @SuppressWarnings("unused")
+	private EmployeesSummaryGrid2 grid;
     
     private Button create;
+    
+    private Button update;
     
     private Button delete;
     
@@ -48,9 +51,13 @@ public class EmployeesSummaryView2 extends CssLayout {
 		delete.setIcon(FontAwesome.MINUS_CIRCLE);
 
 		create.addClickListener((event) -> {
-			navigator.navigateTo(EmployeesView.NAME + "/form/new");
+			navigator.navigateTo(EmployeesView.NAME + "/new");
 		});
 
+		update.addClickListener((event) -> {
+			
+		});
+		
 		delete.addClickListener((event) -> {
 		});
 

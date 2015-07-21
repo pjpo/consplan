@@ -95,7 +95,7 @@ public class EmployeesSummaryLogic {
     public void newEmployee() {
         view.clearSelection();
         setFragmentParameter("new");
-        view.editEmployee(employeesDao.newEmployee());
+        view.editEmployee(new Employee());
     }
 
     public void rowSelected(final Employee employee) {

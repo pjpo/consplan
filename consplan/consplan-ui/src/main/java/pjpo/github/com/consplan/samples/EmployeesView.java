@@ -1,5 +1,6 @@
 package pjpo.github.com.consplan.samples;
 
+import pjpo.github.com.consplan.dao.EmployeesDao;
 import pjpo.github.com.consplan.model.Employee;
 
 import com.vaadin.navigator.Navigator;
@@ -14,40 +15,50 @@ public class EmployeesView extends BaseView {
 	
 	private final EmployeeForm2 form;
 	
-	public EmployeesView(final Navigator navigator) {
+	private final EmployeesDao dao;
+	
+	public EmployeesView(
+			final Navigator navigator,
+			final EmployeesDao employeesDao) {
 		summary = new EmployeesSummaryView2(navigator);
 		form = new EmployeeForm2();
+		dao = employeesDao;
 		setSizeFull();
 	}
 	
 	@Override
-	public void enter(ViewChangeEvent event, UrlDecoded urlDecoded) {
-		// If form asked, show it
-		if (urlDecoded.getPath().size() == 2 && urlDecoded.getPath().get(0).equals("form")) {
-			// See if we are in a create action or in a modify action
-			Employee editedEmployee = null;
-			if (urlDecoded.getPath().get(1).equals("modify")) {
-				// Gets the selected id
-				if (urlDecoded.getParameters().containsKey("id")) {
-					try {
-						final Long EmployeeId = Long.decode(urlDecoded.getParameters().get("id"));
-					} catch (Exception ex) {
-						// Do nothing, create only element
-					}
-				}
-				form.setEditedEmployee(new Employee());
-			}
-			// If employee not set, create new employee
-			if (editedEmployee == null)
-				editedEmployee = new Employee();
-			
-			// Show this employee in form
-			form.setEditedEmployee(editedEmployee);
-			
+	public void enter(
+			final ViewChangeEvent event,
+			final UrlDecoded urlDecoded) {
+		// if new element added, add a new element in form
+		if (urlDecoded.getPath().size() == 1 && urlDecoded.getPath().get(0).equals("new")) {
+			form.setEditedEmployee(new Employee());
+
 			removeAllComponents();
 			addComponent(form);
 		}
-		// no form asked, show list of employees
+		// if update asked, update it
+		else if (urlDecoded.getPath().size() == 1 && urlDecoded.getPath().equals("update")
+				&& urlDecoded.getParameters().containsKey("id")) {
+			try {
+				final Long employeeId = Long.decode(urlDecoded.getParameters().get("id"));
+				final Employee employee = dao.getById(employeeId);
+				form.setEditedEmployee(employee);
+				
+				removeAllComponents();
+				addComponent(form);
+			} catch (Exception ex) {
+				removeAllComponents();
+				addComponent(summary);
+			}
+		}
+		// If delete asked, delete and show summary
+		else if (urlDecoded.getPath().size() == 1 && urlDecoded.getPath().equals("delete")
+				&& urlDecoded.getParameters().containsKey("id")) {
+			removeAllComponents();
+			addComponent(summary);
+		}
+		// Default action = show summary
 		else {
 			removeAllComponents();
 			addComponent(summary);
