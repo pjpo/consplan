@@ -1,60 +1,103 @@
 package pjpo.github.com.consplan.dao;
 
 import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import pjpo.github.com.consplan.model.Employee;
 
-import com.google.common.collect.HashMultimap;
-
 public class EmployeesDao {
 
-	private HashMap<Long, Employee> employees;
-
-	private final Random rand = new Random(new Date().getTime());
-	
-	public EmployeesDao() {
-		employees = new HashMap<>();
-		Employee emp = new Employee();
-		emp.setName("Nom1");
-		emp.setPaidVacations(new LinkedList<>());
-		emp.setRefusedPositions(new LinkedList<>());
-		emp.setTimePart(100);
-		emp.setUnpaidVacations(new LinkedList<>());
-		emp.setWorkedVacs(HashMultimap.create());
-		employees.put(0L, emp);
-	}
-	
+	private final static EntityManagerFactory factory = Persistence.createEntityManagerFactory("consplanunit");
+			
 	public Collection<Employee> getEmployees() {
-		return employees.values();
+		final EntityManager em = factory.createEntityManager();
+		
+		em.getTransaction().begin();
+		
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		
+		CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
+		Root<Employee> from = criteriaQuery.from(Employee.class);
+		
+		CriteriaQuery<Employee> select = criteriaQuery.select(from);
+		TypedQuery<Employee> typedQuery = em.createQuery(select);
+		List<Employee> resultlist = typedQuery.getResultList();
+
+		em.getTransaction().commit();
+		
+		em.close();
+		
+		return resultlist;
 	}
 
 	public Employee getById(final Long employeeId) {
-		return employees.get(employeeId);
+		
+		EntityManager em = null;
+		Employee result = null;
+		
+		try {
+			em = factory.createEntityManager();
+
+			em.getTransaction().begin();
+
+			result = em.find(Employee.class, employeeId);
+		
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			if (em != null) {
+				em.close();
+			}
+		}
+		
+		return result;
 	}
 	
 	public void deleteEmployee(final Long employeeId) {
-		employees.remove(employeeId);
+
+		EntityManager em = null;
+	      
+		try {
+			em = factory.createEntityManager();
+
+			em.getTransaction().begin();
+			
+			Employee employee = em.find(Employee.class, employeeId);
+			em.remove(employee);
+
+			em.getTransaction().commit();
+	            
+	        } catch (Exception e){
+	        	if (em != null) {
+	        		em.close();
+	        	}
+	        }
 	}
 	
 	public void updateEmployee(final Employee employee) {
-		employees.put(employee.getEmployeeId(), employee);
+
+		EntityManager em = null;
+	      
+		try {
+			em = factory.createEntityManager();
+
+			em.getTransaction().begin();
+			
+			em.merge(employee);
+
+			em.getTransaction().commit();
+	            
+	        } catch (Exception e){
+	        	if (em != null) {
+	        		em.close();
+	        	}
+	        }
 	}
 	
-	public Employee newEmployee() {
-		final Employee employee = new Employee();
-		// Finds a free id
-		while (true) {
-			final Long triedId = (long) rand.nextInt(Integer.MAX_VALUE);
-			if (!employees.containsKey(triedId)) {
-				employee.setEmployeeId(triedId);
-				employees.put(triedId, employee);
-				break;
-			}
-		}
-		return employee;
-	}
 }
