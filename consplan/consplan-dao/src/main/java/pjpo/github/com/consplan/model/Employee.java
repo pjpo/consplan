@@ -52,15 +52,15 @@ public class Employee implements com.github.pjpo.consplan.library.model.Employee
     private Integer timePart = 100;
 	
 	/** List of vacations */
-    @OneToMany(mappedBy="employeeId")
+    @OneToMany(orphanRemoval=true)
     private Collection<Vacation> vacations;
 
 	/** List of predefined worked positions */
-    @OneToMany(mappedBy="employeeId")
+    @OneToMany(orphanRemoval=true)
 	private Collection<Position> workedPositions;
 	
 	/** List of positions that this worker can not fill */
-    @OneToMany(mappedBy="employeeId")
+    @OneToMany(orphanRemoval=true)
 	private Collection<RefusedPosition> refusedPositions;
 
 	public Long getEmployeeId() {
