@@ -2,6 +2,9 @@ package pjpo.github.com.consplan.samples;
 
 import java.util.ResourceBundle;
 
+import pjpo.github.com.consplan.dao.EmployeesDao;
+import pjpo.github.com.consplan.model.Employee;
+
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.FontAwesome;
@@ -27,7 +30,6 @@ public class EmployeesSummaryView2 extends CssLayout {
 	
     // Elements from the ui
     
-    @SuppressWarnings("unused")
 	private EmployeesSummaryGrid2 grid;
     
     private Button create;
@@ -36,7 +38,7 @@ public class EmployeesSummaryView2 extends CssLayout {
     
     private Button delete;
     
-    public EmployeesSummaryView2(final Navigator navigator) {
+    public EmployeesSummaryView2(final Navigator navigator, final EmployeesDao dao) {
     	// Builds the UI
 		Design.read("EmployeesSummaryView.html", this);
 		
@@ -49,6 +51,11 @@ public class EmployeesSummaryView2 extends CssLayout {
 		create.setIcon(FontAwesome.PLUS_CIRCLE);
 		delete.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		delete.setIcon(FontAwesome.MINUS_CIRCLE);
+		
+		grid.getContainerDataSource().removeAllItems();
+		for (Employee employee : dao.getEmployees()) {
+			grid.getContainerDataSource().addItem(employee);
+		}
 
 		create.addClickListener((event) -> {
 			navigator.navigateTo(EmployeesView.NAME + "/new");

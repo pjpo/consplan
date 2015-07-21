@@ -20,7 +20,7 @@ public class EmployeesView extends BaseView {
 	public EmployeesView(
 			final Navigator navigator,
 			final EmployeesDao employeesDao) {
-		summary = new EmployeesSummaryView2(navigator);
+		summary = new EmployeesSummaryView2(navigator, employeesDao);
 		form = new EmployeeForm2();
 		dao = employeesDao;
 		setSizeFull();
