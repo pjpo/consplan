@@ -44,11 +44,14 @@ public class EmployeesSummaryView2 extends CssLayout {
 		
 		// Sets I18N text
 		create.setCaption(resourceText.getString("CreateEmployee2"));
+		update.setCaption(resourceText.getString("UpdateEmployee2"));
 		delete.setCaption(resourceText.getString("DeleteEmployee2"));
 		
 		// Sets programmatically the necessary theme
 		create.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		create.setIcon(FontAwesome.PLUS_CIRCLE);
+		update.addStyleName(ValoTheme.BUTTON_PRIMARY);
+		update.setIcon(FontAwesome.ARROW_CIRCLE_UP);
 		delete.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		delete.setIcon(FontAwesome.MINUS_CIRCLE);
 		

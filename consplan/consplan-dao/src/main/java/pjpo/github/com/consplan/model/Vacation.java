@@ -3,11 +3,15 @@ package pjpo.github.com.consplan.model;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import pjpo.github.com.consplan.converter.LocalDateTimePersistenceConverter;
 
 @Entity
 @Table(name="vacation")
@@ -23,7 +27,8 @@ public class Vacation implements Serializable {
 	private Long vacationId;
 	
 	@OneToOne
-	@Column(name="vacationinterval")
+	@JoinColumn(name="vacationinterval")
+	@Convert(converter = LocalDateTimePersistenceConverter.class)
 	private IntervalDateTime interval;
 
 	@Column(name="vacationpaid")
