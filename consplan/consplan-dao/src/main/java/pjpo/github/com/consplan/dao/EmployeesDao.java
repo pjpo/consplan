@@ -14,7 +14,7 @@ import pjpo.github.com.consplan.model.Employee;
 
 public class EmployeesDao {
 
-	private final static EntityManagerFactory factory = Persistence.createEntityManagerFactory("consplanunit");
+	private final EntityManagerFactory factory = Persistence.createEntityManagerFactory("consplanunit");
 			
 	public Collection<Employee> getEmployees() {
 		final EntityManager em = factory.createEntityManager();
